@@ -11,26 +11,3 @@
     "header header"
     "nav content";
 }
-
-.header {
-  grid-area: header;
-  background-color: rgb(10, 161, 221);
-}
-
-.header img {
-  width: 40px;
-}
-
-.nav {
-  grid-area: nav;
-  background-color: rgb(231, 106, 106);
-}
-
-.content {
-  grid-area: content;
-  background-color: rgb(187, 211, 211);
-}
-
-.content img {
-  width: 100%;
-}

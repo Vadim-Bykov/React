@@ -1,15 +1,28 @@
-import './App.css';
-import Header from './components/Header';
-import Navbar from './components/Navbar';
-import Profile from './components/Profile';
+import "./App.css";
+import Header from "./components/Header/Header";
+import Navbar from "./components/Navbar/Navbar";
+import Dialogs from "./components/Profile/Dialogs/Dialogs";
+import Profile from "./components/Profile/Profile";
+import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
+import News from "./components/Profile/News/News";
+import Music from "./components/Profile/Music/Music";
+import Settings from "./components/Profile/Settings/Settings";
 
 function App() {
   return (
-    <div className="app-wrapper">
-      <Header />
-      <Navbar />
-      <Profile/>
-    </div>
+    <Router>
+      <div className="app-wrapper">
+        <Header />
+        <Navbar />
+        <div className="app-wrapper-content">
+          <Route path="/profile" component={Profile} />
+          <Route path="/dialogs" component={Dialogs} />
+          <Route path="/news" component={News} />
+          <Route path="/music" component={Music} />
+          <Route path="/settings" component={Settings} />
+        </div>
+      </div>
+    </Router>
   );
 }
 

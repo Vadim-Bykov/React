@@ -1,12 +1,18 @@
 .nav {
   grid-area: nav;
   background-color: rgb(231, 106, 106);
+  padding: 10px;
 }
 
 .item {
+  margin: 10px;
+}
+
+.item a {
+  text-decoration: none;
   color: aliceblue;
 }
 
-.item.active {
-  color: rgb(211, 200, 47);
+.item a.activeLink {
+  color: rgb(236, 222, 14);
 }

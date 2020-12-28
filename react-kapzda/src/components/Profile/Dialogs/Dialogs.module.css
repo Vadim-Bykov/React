@@ -1,0 +1,21 @@
+.dialogs {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+}
+
+.dialogsItem {
+}
+.itemName {
+  margin: 5px;
+}
+
+.itemName.active {
+  color: rgb(248, 193, 10);
+}
+
+.messages {
+}
+
+.message {
+  margin: 5px;
+}

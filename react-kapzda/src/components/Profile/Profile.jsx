@@ -1,12 +1,11 @@
 import s from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 const Profile = () => {
-   return (<div>
+   return (
       <div>
-         <img src="https://reactapp.ir/wp-content/uploads/reactjs.jpg" alt="react" />
-      </div>
-      <div>Avatar + description</div>
-      <MyPosts/>
-   </div>);
+         <ProfileInfo/>
+         <MyPosts/>
+      </div>);
 }
 export default Profile;

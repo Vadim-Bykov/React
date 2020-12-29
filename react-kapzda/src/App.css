@@ -12,7 +12,7 @@
     "nav content";
 }
 
-.app-wrapper-.content {
+.app-wrapper-content {
   grid-area: content;
   background-color: rgb(208, 238, 238);
 }

@@ -15,13 +15,37 @@ const Message = (props) => {
 }
 
 const Dialogs = (props) => {
+   const dialogsData = [
+      { id: 1, name: 'Vadim' },
+      { id: 2, name: 'Tanya' },
+      { id: 3, name: 'Eva' },
+      { id: 4, name: 'Slavik' }
+   ];
+
+   const dialogsElements = [
+      <DialogItem name={dialogsData[0].name} id={dialogsData[0].id} />,
+      <DialogItem name={dialogsData[1].name} id={dialogsData[1].id} />,
+      <DialogItem name={dialogsData[2].name} id={dialogsData[2].id} />,
+      <DialogItem name={dialogsData[3].name} id={dialogsData[3].id} />
+   ];
+
+   const messagesData = [
+      { id: 1, message: 'Hello' },
+      { id: 2, message: 'How are you?' },
+      { id: 3, message: 'Hi!' },
+      { id: 4, message: 'Yoo' }
+   ];
+
    return (
       <div className={s.dialogs}>
          <div className={s.dialogsItems}>
-            <DialogItem name="Vadim" id="1" />
-            <DialogItem name="Tanya" id="2" />
-            <DialogItem name="Eva" id="3" />
-            <DialogItem name="Slavik" id="4" />
+
+            { dialogsElements }
+
+            {/* <DialogItem name={dialogsData[0].name} id={dialogsData[0].id} />
+            <DialogItem name={dialogsData[1].name} id={dialogsData[1].id} />
+            <DialogItem name={dialogsData[2].name} id={dialogsData[2].id} />
+            <DialogItem name={dialogsData[3].name} id={dialogsData[3].id} /> */}
             
             {/* <div className={s.itemName}>
                <NavLink to="/dialogs/2">Tanya</NavLink>
@@ -34,10 +58,10 @@ const Dialogs = (props) => {
             </div> */}
          </div>
          <div className={s.messages}>
-            <Message message="Hello"></Message>
-            <Message message="How are you?"></Message>
-            <Message message="Hi!"></Message>
-            <Message message="Yoo"></Message>
+            <Message message={messagesData[0].message}></Message>
+            <Message message={messagesData[1].message}></Message>
+            <Message message={messagesData[2].message}></Message>
+            <Message message={messagesData[3].message}></Message>
             {/* <div className={s.message}>Hello</div> */}
             {/* <div className={s.message}>How are you?</div> */}
             {/* <div className={s.message}>Hi!</div> */}

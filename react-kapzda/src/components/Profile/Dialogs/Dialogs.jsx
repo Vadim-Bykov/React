@@ -15,26 +15,23 @@ const Message = (props) => {
 }
 
 const Dialogs = (props) => {
-   const dialogsData = [
+   const dialogs = [
       { id: 1, name: 'Vadim' },
       { id: 2, name: 'Tanya' },
       { id: 3, name: 'Eva' },
       { id: 4, name: 'Slavik' }
    ];
 
-   const dialogsElements = [
-      <DialogItem name={dialogsData[0].name} id={dialogsData[0].id} />,
-      <DialogItem name={dialogsData[1].name} id={dialogsData[1].id} />,
-      <DialogItem name={dialogsData[2].name} id={dialogsData[2].id} />,
-      <DialogItem name={dialogsData[3].name} id={dialogsData[3].id} />
-   ];
+   const dialogsElements = dialogs.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
 
-   const messagesData = [
+   const messages = [
       { id: 1, message: 'Hello' },
       { id: 2, message: 'How are you?' },
       { id: 3, message: 'Hi!' },
       { id: 4, message: 'Yoo' }
    ];
+
+   const messagesElements = messages.map(message => <Message message={message.message}></Message>)
 
    return (
       <div className={s.dialogs}>
@@ -42,29 +39,17 @@ const Dialogs = (props) => {
 
             { dialogsElements }
 
-            {/* <DialogItem name={dialogsData[0].name} id={dialogsData[0].id} />
-            <DialogItem name={dialogsData[1].name} id={dialogsData[1].id} />
-            <DialogItem name={dialogsData[2].name} id={dialogsData[2].id} />
-            <DialogItem name={dialogsData[3].name} id={dialogsData[3].id} /> */}
+            {/* <DialogItem name={dialogs[0].name} id={dialogs[0].id} /> */}
             
             {/* <div className={s.itemName}>
                <NavLink to="/dialogs/2">Tanya</NavLink>
-            </div>
-            <div className={s.itemName}>
-               <NavLink to="/dialogs/3">Eva</NavLink>
-            </div>
-            <div className={s.itemName}>
-               <NavLink to="/dialogs/4">Slavik</NavLink>
-            </div> */}
+            </div */}
          </div>
          <div className={s.messages}>
-            <Message message={messagesData[0].message}></Message>
-            <Message message={messagesData[1].message}></Message>
-            <Message message={messagesData[2].message}></Message>
-            <Message message={messagesData[3].message}></Message>
+            {messagesElements}
+            {/* <Message message={messages[0].message}></Message> */}
+
             {/* <div className={s.message}>Hello</div> */}
-            {/* <div className={s.message}>How are you?</div> */}
-            {/* <div className={s.message}>Hi!</div> */}
          </div>
       </div>
    );

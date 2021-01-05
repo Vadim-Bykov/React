@@ -1,4 +1,6 @@
-import { renderEntireTree } from "../render";
+// import { renderEntireTree } from "../render";
+
+let renderEntireTree = () => {};
 
 const state = {
   profilePage: {
@@ -54,6 +56,10 @@ export const addMessage = () => {
 export const updateMessage = (text) => {
   state.dialogPage.messageText = text;
   renderEntireTree(state);
+};
+
+export const subscriber = (observer) => {
+   renderEntireTree = observer;
 };
 
 export default state;

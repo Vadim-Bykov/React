@@ -23,6 +23,7 @@ const state = {
       { id: 3, message: "Hi!" },
       { id: 4, message: "Yoo" },
     ],
+    messageText: "Yoo!",
   },
 };
 
@@ -32,14 +33,27 @@ export const addPost = () => {
     message: state.profilePage.postText,
     likesCount: 0,
   });
-  state.profilePage.postText = ''
-  console.log(state.profilePage.posts);
+  state.profilePage.postText = "";
   renderEntireTree(state);
 };
 
 export const updatePostText = (text) => {
-   state.profilePage.postText = text;
-   renderEntireTree(state);
+  state.profilePage.postText = text;
+  renderEntireTree(state);
+};
+
+export const addMessage = () => {
+  state.dialogPage.messages.push({
+    id: state.dialogPage.messages.length + 1,
+    message: state.dialogPage.messageText,
+  });
+  renderEntireTree(state);
+  state.dialogPage.messageText = "";
+};
+
+export const updateMessage = (text) => {
+  state.dialogPage.messageText = text;
+  renderEntireTree(state);
 };
 
 export default state;

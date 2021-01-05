@@ -1,13 +1,14 @@
 .dialogs {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
 }
 
 .dialogsItems {
 }
-.itemName {
+/* .itemName {
   margin: 5px;
-}
+} */
 
 .itemName a{
   text-decoration: none;
@@ -21,6 +22,12 @@
 .messages {
 }
 
-.message {
+/* .message {
   margin: 5px;
+} */
+
+.textareaBlock{
+  display: grid;
+  grid-gap: 10px;
+  justify-items: start;
 }

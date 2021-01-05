@@ -4,7 +4,7 @@ import {BrowserRouter} from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { addPost, updatePostText } from "./redux/state";
+import { addMessage, addPost, updateMessage, updatePostText } from "./redux/state";
 
 export const renderEntireTree = (state) => {
    ReactDOM.render(
@@ -14,6 +14,8 @@ export const renderEntireTree = (state) => {
                state={state}
                addPost={addPost}
                updatePostText={updatePostText}
+               addMessage={addMessage}
+               updateMessage={updateMessage}
             />
         </BrowserRouter>
       </React.StrictMode>,

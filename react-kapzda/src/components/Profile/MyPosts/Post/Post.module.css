@@ -1,9 +1,13 @@
 .item {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+  justify-items: center;
   color: rgb(224, 26, 214);
+  margin-top: 15px;
 }
 
 .item img {
   width: 50px;
   border-radius: 30px;
 }
-

@@ -1,6 +1,7 @@
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import React from 'react'
+import { addPostActionCreator, updatePostActionCreator } from '../../../redux/state';
 
 const MyPosts = (props) => {
 
@@ -8,16 +9,14 @@ const MyPosts = (props) => {
 
    const newPostText = React.createRef();
 
-   // const addPost = () => {
-   //    const text = newPostText.current.value
-   //    props.addPost(text)
-   // }
+   const addPost = () => {
+      props.dispatch(addPostActionCreator());
+   };
 
    const changePostText = () => {
-      const text = newPostText.current.value
-      props.updatePostText(text)
-      
-   }
+      const text = newPostText.current.value;
+      props.dispatch(updatePostActionCreator(text));
+   };
 
    return (
       <div className={s.postsBlock}>
@@ -30,7 +29,7 @@ const MyPosts = (props) => {
             />
          </div>
          <div>
-            <button onClick={props.addPost}>Add post</button>
+            <button onClick={addPost}>Add post</button>
             <button>Remove</button>
          </div>
          <div className={s.posts}>

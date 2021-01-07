@@ -22,7 +22,7 @@ const store = {
         { id: 3, message: "Hi!" },
         { id: 4, message: "Yoo" },
       ],
-      messageText: "Yoo!",
+      messageText: "",
     },
   },
 
@@ -53,8 +53,8 @@ const store = {
         id: this._state.dialogPage.messages.length + 1,
         message: this._state.dialogPage.messageText,
       });
-      this._callSubscriber(this._state);
       this._state.dialogPage.messageText = "";
+      this._callSubscriber(this._state);
     } else if (action.type === "UPDATE-MESSAGE-TEXT") {
       this._state.dialogPage.messageText = action.text;
       this._callSubscriber(this._state);

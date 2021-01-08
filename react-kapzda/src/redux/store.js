@@ -35,7 +35,7 @@ const store = {
 
   _callSubscriber() {},
 
-  subscriber(observer) {
+  subscribe(observer) {
     this._callSubscriber = observer;
   },
 
@@ -70,22 +70,8 @@ const store = {
   },
 };
 
-export const addPostActionCreator = () => {
-  return { type: "ADD-POST" };
-};
 
-export const updatePostActionCreator = (text) => {
-  const action = { type: "UPDATE-POST-TEXT", text: text };
-  return action;
-};
 
-export const addMessageActionCreator = () => {
-  return { type: "ADD-MESSAGE" };
-};
 
-export const updateMessageActionCreator = (currentText) => {
-  const action = { type: "UPDATE-MESSAGE-TEXT", text: currentText };
-  return action;
-};
 
 export default store;

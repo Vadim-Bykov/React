@@ -20,7 +20,6 @@ function App(props) {
             <Profile
               profilePage={props.state.profilePage}
               dispatch={props.dispatch}
-              // updatePostText={props.updatePostText}
             />
           )}
         />

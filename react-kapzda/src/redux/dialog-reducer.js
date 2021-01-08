@@ -1,7 +1,23 @@
 const ADD_MESSAGE = "ADD-MESSAGE";
 const UPDATE_MESSAGE_TEXT = "UPDATE-MESSAGE-TEXT";
 
-const dialogReducer = (state, action) => {
+const initialState = {
+  dialogs: [
+    { id: 1, name: "Vadim" },
+    { id: 2, name: "Tanya" },
+    { id: 3, name: "Eva" },
+    { id: 4, name: "Slavik" },
+  ],
+  messages: [
+    { id: 1, message: "Hello" },
+    { id: 2, message: "How are you?" },
+    { id: 3, message: "Hi!" },
+    { id: 4, message: "Yoo" },
+  ],
+  messageText: "",
+};
+
+const dialogReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_MESSAGE:
       state.messages.push({
@@ -18,6 +34,15 @@ const dialogReducer = (state, action) => {
     default:
       return state;
   }
+};
+
+export const addMessageActionCreator = () => {
+  return { type: "ADD-MESSAGE" };
+};
+
+export const updateMessageActionCreator = (currentText) => {
+  const action = { type: "UPDATE-MESSAGE-TEXT", text: currentText };
+  return action;
 };
 
 export default dialogReducer;

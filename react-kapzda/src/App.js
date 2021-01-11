@@ -2,11 +2,11 @@ import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
-import Dialogs from "./components/Profile/Dialogs/Dialogs";
 import Profile from "./components/Profile/Profile";
 import News from "./components/Profile/News/News";
 import Music from "./components/Profile/Music/Music";
 import Settings from "./components/Profile/Settings/Settings";
+import DialogsContainer from "./components/Profile/Dialogs/DialogsContainer";
 
 function App(props) {
   return (
@@ -18,17 +18,17 @@ function App(props) {
           path="/profile"
           render={() => (
             <Profile
-              profilePage={props.state.profilePage}
-              dispatch={props.dispatch}
+              // profilePage={props.state.profilePage}
+              // dispatch={props.dispatch}
             />
           )}
         />
         <Route
           path="/dialogs"
           render={() => (
-            <Dialogs
-              dialogPage={props.state.dialogPage}
-              dispatch={props.dispatch}
+            <DialogsContainer
+              // dialogPage={props.state.dialogPage}
+              // dispatch={props.dispatch}
               // updateMessage={props.updateMessage}
             />
           )}

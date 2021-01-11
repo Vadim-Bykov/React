@@ -23,10 +23,9 @@ export const renderEntireTree = (state) => {
   );
 };
 
-console.log(store);
 renderEntireTree(store.getState());
-store.subscribe(() => {
-  renderEntireTree(store.getState());
-});
+// store.subscribe(() => {
+//   renderEntireTree(store.getState());
+// });
 
 reportWebVitals();

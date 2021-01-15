@@ -5,9 +5,9 @@ import Message from './Message/Message';
 import { addMessageActionCreator, updateMessageActionCreator } from '../../../redux/dialog-reducer';
 
 const Dialogs = (props) => {
-   const dialogsElements = props.dialogs.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
+   const dialogsElements = props.dialogs.map(dialog => <DialogItem key={dialog.id} name={dialog.name} id={dialog.id} />);
 
-   const messagesElements = props.messages.map(message => <Message message={message.message}/>);
+   const messagesElements = props.messages.map(message => <Message key={message.id} message={message.message}/>);
 
    // const newText = React.createRef();
 

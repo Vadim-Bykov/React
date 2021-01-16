@@ -1,11 +1,32 @@
+import React from "react";
 import axios from 'axios';
 import User from './User/User';
 // import style from './Users.module.css'
 
-const Users = (props) => {
-   if (props.users.length === 0) {
-      axios.get('https://social-network.samuraijs.com/api/1.0/users').then(res=>props.setUsers(res.data.items))
-      // props.setUsers([
+class Users extends React.Component  {
+   // constructor(props) {
+   //    super(props);
+   // }
+   
+   componentDidMount = () => {
+      axios
+         .get('https://social-network.samuraijs.com/api/1.0/users').then(res => this.props.setUsers(res.data.items))
+   }
+
+   render = () => {
+      return this.props.users.map((u, index) => <User
+         id={u.id}
+         photos={u.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'}
+         followed={u.followed}
+         unfollow={this.props.unfollow}
+         follow={this.props.follow}
+         name={u.name}
+         status={u.status}
+         key={index}
+      />)
+   };
+
+    // props.setUsers([
       //    {
       //       id: 1,
       //       photoUrl: "https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg",
@@ -51,19 +72,7 @@ const Users = (props) => {
       //       },
       //    },
       // ])
-   };
 
-   return props.users.map(u => <User
-      id={u.id}
-      photos={u.photos}
-      followed={u.followed}
-      unfollow={props.unfollow}
-      follow={props.follow}
-      name={u.name}
-      status={u.status}
-      // location={u.location}
-      key={u.id}
-   />)
 
    // return (<div>
    //    {

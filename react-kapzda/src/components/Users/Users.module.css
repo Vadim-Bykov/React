@@ -1,9 +1,13 @@
-/* .userBlock{
+.pagesBlock{
    display: flex;
-   outline: 1px solid blue;
 }
-
-.usersPhoto{
-   width: 50px;
+.num{
+   cursor: pointer;
 }
- */
+.selected{
+   font-weight: bold;
+}
+span{
+   cursor: pointer;
+   margin-left: 3px;
+}

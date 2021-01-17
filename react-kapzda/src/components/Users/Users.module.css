@@ -1,13 +1,46 @@
-.pagesBlock{
-   display: flex;
+.pagesBlock {
+  display: flex;
 }
-.num{
-   cursor: pointer;
+
+.selected {
+  font-weight: bold;
 }
-.selected{
-   font-weight: bold;
+
+.pagesBlock {
+  display: flex;
+  max-width: 1000px;
+  overflow: auto;
 }
-span{
-   cursor: pointer;
-   margin-left: 3px;
+
+.span {
+  cursor: pointer;
+  margin-left: 3px;
+}
+
+.photoBlock {
+  display: grid;
+  grid-gap: 10px;
+  justify-items: center;
+}
+
+.user {
+  display: flex;
+  outline: 1px solid blue;
+}
+
+.usersPhoto {
+  width: 50px;
+}
+
+.btn {
+  width: 68px;
+}
+
+.userInfo {
+  display: flex;
+  margin: 5px;
+}
+
+.nameStatus {
+  margin: 0 15px;
 }

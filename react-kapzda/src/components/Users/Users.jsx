@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import style from './Users.module.css'
 
 const Users = (props) => {
@@ -14,7 +15,7 @@ const Users = (props) => {
             {
                pages.map((pageNumber, i) => <span
                   onClick={() => props.changePage(pageNumber)}
-                  className={props.currentPage === pageNumber ? style.selected : '', style.span}
+                  className={props.currentPage === pageNumber ? style.selected : ('', style.span)}
                   key={i}>{pageNumber}
                </span>)
             }
@@ -24,7 +25,9 @@ const Users = (props) => {
             <div className={style.user}>
                <div className={style.photoBlock}>
                   <div>
-                     <img src={user.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'} className={style.usersPhoto} alt='ava' />
+                     <NavLink to={'./profile/' + user.id}>
+                        <img src={user.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'} className={style.usersPhoto} alt='ava' />
+                     </NavLink>
                   </div>
                   <div>
                      {user.followed

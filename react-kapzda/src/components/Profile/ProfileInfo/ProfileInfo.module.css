@@ -1,5 +1,9 @@
-img {
+.bg {
   width: 100%;
+}
+
+.ava{
+  margin-right: 5px;
 }
 
 .descriptionBlock{

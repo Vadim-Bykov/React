@@ -24,7 +24,7 @@ const Users = (props) => {
             <div className={style.user}>
                <div className={style.photoBlock}>
                   <div>
-                     <img src={user.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'} className={style.usersPhoto} />
+                     <img src={user.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'} className={style.usersPhoto} alt='ava' />
                   </div>
                   <div>
                      {user.followed

@@ -4,8 +4,10 @@
 
 .ava{
   margin-right: 5px;
+  width: 100px;
 }
 
 .descriptionBlock{
   padding: 10px;
+  display: flex;
 }

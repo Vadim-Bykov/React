@@ -15,7 +15,7 @@ function App(props) {
       <Header />
       <Navbar />
       <div className='app-wrapper-content'>
-        <Route path='/profile' render={() => <ProfileContainer />} />
+        <Route path='/profile/:userId?' render={() => <ProfileContainer />} />
         <Route path='/dialogs' render={() => <DialogsContainer />} />
         {/* <Route exact path="/dialogs" component={Dialogs} /> */}
         {/* exact покажет только точный путь без подкаталогов /dialogs/1*/}

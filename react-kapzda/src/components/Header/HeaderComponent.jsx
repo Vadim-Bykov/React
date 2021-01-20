@@ -13,8 +13,7 @@ class HeaderComponent extends React.Component {
             if (res.data.resultCode === 0) {
                const { id, email, login } = res.data.data;
                this.props.setAuthUserData(id, email, login);
-               console.log(id, email, login)
-               axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${id}`)
+               axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${id}`,{ withCredentials: true })
                   .then(res=>this.props.setUserPhoto(res.data.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'));
             }
          })

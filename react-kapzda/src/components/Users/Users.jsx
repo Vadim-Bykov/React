@@ -32,22 +32,25 @@ const Users = (props) => {
                   </div>
                   <div>
                      {user.followed
-                        ? <button className={style.btn}
+                        ? <button disabled={props.followingInProgress.some(id=> id === user.id)} className={style.btn}
                            onClick={() => {
-                           usersAPI.unfollow(user.id)
-                              .then(res => {
-                                 console.log(res)
-                                 if (res.resultCode===0) props.unfollow(user.id);
+                              props.toggleFollowingProgress(true, user.id);
+                              // console.log(props.followingInProgress)
+                              usersAPI.unfollow(user.id).then(res => {
+                                 if (res.resultCode === 0) props.unfollow(user.id);
+                                 props.toggleFollowingProgress(false, user.id);
+                                 // console.log(props.followingInProgress)
                               });
                         }}>Follow</button>
-                        : <button className={style.btn}
+                        : <button disabled={props.followingInProgress.some(id=> id === user.id)} className={style.btn}
                            onClick={() => {
-                              usersAPI.follow(user.id)
-                                 .then(res => {
-                                    console.log(res)
-                                    if (res.resultCode === 0) props.follow(user.id);
-                                 });
-                              
+                              props.toggleFollowingProgress(true, user.id);
+                              // console.log(props.followingInProgress)
+                              usersAPI.follow(user.id).then(res => {
+                                 if (res.resultCode === 0) props.follow(user.id);
+                                 props.toggleFollowingProgress(false, user.id);
+                                 // console.log(props.followingInProgress)
+                              });
                            }}>Unfollow</button>}
                   </div>
                </div>

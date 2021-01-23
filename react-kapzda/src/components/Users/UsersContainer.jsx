@@ -4,6 +4,7 @@ import React from "react";
 import Users from './Users';
 import Preloader from "../common/preloader/Preloader";
 import { WithAuthRedirect } from "../HOC/withAuthRedirect";
+import { compose } from "redux";
 
 class UsersComponent extends React.Component  {
    
@@ -45,17 +46,16 @@ const mapStateToProps = (state) => {
       isFetching: state.usersPage.isFetching,
       followingInProgress: state.usersPage.followingInProgress,
    }
-}
+};
 
-// const AuthRedirectComponent = WithAuthRedirect(UsersComponent)
-
-const UsersContainer = WithAuthRedirect(connect(mapStateToProps, {
-   follow,
-   unfollow,
-   getUsers
-})(UsersComponent));
+const UsersContainer = compose(
+   connect(mapStateToProps, { follow, unfollow, getUsers }),
+   WithAuthRedirect
+)(UsersComponent);
 
 export default UsersContainer;
+
+
 
 // const mapDispatchToProps = (dispatch) => {
 //    return {

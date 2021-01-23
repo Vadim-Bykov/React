@@ -1,3 +1,5 @@
+import { authAPI, profileAPI } from '../API/api';
+
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_USER_PHOTO = 'SET_USER_PHOTO';
 
@@ -22,7 +24,7 @@ const authReducer = (state = initialState, action) => {
     case SET_USER_PHOTO:
       return {
         ...state,
-        photo: action.photo
+        photo: action.photo,
       };
 
     default:
@@ -36,6 +38,27 @@ export const setAuthUserData = (id, email, login) => {
 
 export const setUserPhoto = (photo) => {
   return { type: SET_USER_PHOTO, photo };
+};
+
+export const identifyUser = () => {
+  return (dispatch) => {
+    authAPI.getAuthData().then((res) => {
+      if (res.data.resultCode === 0) {
+        const { id, email, login } = res.data.data;
+        dispatch(setAuthUserData(id, email, login));
+        profileAPI
+          .getProfileData(id)
+          .then((res) =>
+            dispatch(
+              setUserPhoto(
+                res.data.photos.small ||
+                  'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'
+              )
+            )
+          );
+      }
+    });
+  };
 };
 
 export default authReducer;

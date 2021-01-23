@@ -29,3 +29,15 @@ export const usersAPI = {
       .then((res) => res.data);
   },
 };
+
+export const profileAPI = {
+  getProfileData(userId) {
+    return instance.get(`profile/${userId}`);
+  },
+};
+
+export const authAPI = {
+  getAuthData() {
+    return instance.get(`auth/me`);
+  },
+};

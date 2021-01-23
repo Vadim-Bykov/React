@@ -40,7 +40,7 @@ export const setUserPhoto = (photo) => {
   return { type: SET_USER_PHOTO, photo };
 };
 
-export const identifyUser = () => {
+export const getAuthUserData = () => {
   return (dispatch) => {
     authAPI.getAuthData().then((res) => {
       if (res.data.resultCode === 0) {

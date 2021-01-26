@@ -67,7 +67,7 @@ export const updatePostActionCreator = (text) => {
   return action;
 };
 
-export const setUserProfile = (profile) => {
+const setUserProfile = (profile) => {
   return { type: SET_USER_PROFILE, profile };
 };
 

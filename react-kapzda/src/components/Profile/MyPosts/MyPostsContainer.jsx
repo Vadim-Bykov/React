@@ -27,18 +27,18 @@ const mapStateToProps = (state)=> {
   } 
 }
 
-const mapDispatchToProps = (dispatch) => {
-   return {
-      addPost: () => {
-         dispatch(addPostActionCreator())
-      },
-      changePostText: (text) => {
-         const action = updatePostActionCreator(text);
-         dispatch(action)
-      }
+// const mapDispatchToProps = (dispatch) => {
+//    return {
+//       addPost: () => {
+//          dispatch(addPostActionCreator())
+//       },
+//       changePostText: (text) => {
+//          const action = updatePostActionCreator(text);
+//          dispatch(action)
+//       }
 
-   }
-}
+//    }
+// }
 
 // const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
 const MyPostsContainer = connect(mapStateToProps, {

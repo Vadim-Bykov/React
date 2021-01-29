@@ -1,7 +1,7 @@
 import style from './formsControls.module.css';
 
 export const FormControl = ({ input, meta, ...props }) => {
-   console.log(props)
+   // console.log(props)
    const hasError = meta.error && meta.touched 
    return (
       <div className={`${style.formControl} ${hasError ? style.error : ''}`}>

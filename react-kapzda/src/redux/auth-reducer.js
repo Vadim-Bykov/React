@@ -3,6 +3,7 @@ import { authAPI, profileAPI } from '../API/api';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_USER_PHOTO = 'SET_USER_PHOTO';
+const TOGGLE_LOGIN_IN_PROGRESS = 'TOGGLE_LOGIN_IN_PROGRESS';
 
 const initialState = {
   id: null,
@@ -11,6 +12,7 @@ const initialState = {
   isAuth: false,
   photo: null,
   isFetching: true,
+  loginInProgress: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -27,6 +29,12 @@ const authReducer = (state = initialState, action) => {
         photo: action.photo,
       };
 
+    case TOGGLE_LOGIN_IN_PROGRESS:
+      return {
+        ...state,
+        loginInProgress: action.progress,
+      };
+
     default:
       return state;
   }
@@ -40,9 +48,13 @@ export const setUserPhoto = (photo) => {
   return { type: SET_USER_PHOTO, photo };
 };
 
+export const toggleLoginInProgress = (progress) => {
+  return { type: TOGGLE_LOGIN_IN_PROGRESS, progress };
+};
+
 export const getAuthUserData = () => {
   return (dispatch) => {
-    authAPI.getAuthData().then((res) => {
+    return authAPI.getAuthData().then((res) => {
       if (res.data.resultCode === 0) {
         const { id, email, login } = res.data.data;
         dispatch(setAuthUserData(id, email, login, true));
@@ -63,13 +75,16 @@ export const getAuthUserData = () => {
 
 export const login = (email, password, rememberMe = false) => {
   return (dispatch) => {
+    dispatch(toggleLoginInProgress(true));
     authAPI.login(email, password, rememberMe).then((res) => {
       if (res.data.resultCode === 0) {
         dispatch(getAuthUserData());
+        dispatch(toggleLoginInProgress(false));
       } else {
         dispatch(
           stopSubmit('login', { _error: res.data.messages[0] || 'Some error' })
         );
+        dispatch(toggleLoginInProgress(false));
       }
     });
   };

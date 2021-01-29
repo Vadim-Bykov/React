@@ -6,12 +6,12 @@ import { login } from "../../redux/auth-reducer";
 import { maxLengthCreator, required } from "../../utils/validators";
 import { Input } from "../common/formControls/formControls";
 import style from '../common/formControls/formControls.module.css'
+import { toggleLoginInProgress } from "../../redux/auth-reducer";
 
 
 const maxLength = maxLengthCreator(20);
 
 const LoginForm = (props) => {
-   
    return (
       <Form onSubmit={props.handleSubmit}>
          <div>
@@ -29,7 +29,7 @@ const LoginForm = (props) => {
             </div>
          }
          <div>
-            <button>Login</button>
+            <button disabled={props.loginInProgress}>Login</button>
          </div>
       </Form>
    )
@@ -52,15 +52,16 @@ const Login = (props) => {
    return (
       <div>
          <h1>LOGIN</h1>
-         <LoginReduxForm onSubmit={onSubmit} />
+         <LoginReduxForm onSubmit={onSubmit} loginInProgress={props.loginInProgress} />
       </div>
    )
 }
 
 const mapStateToProps = (state) => {
    return {
-      isAuth: state.auth.isAuth
+      isAuth: state.auth.isAuth,
+      loginInProgress: state.auth.loginInProgress,
    }
 }
 
-export default connect(mapStateToProps, {login} )(Login);
+export default connect(mapStateToProps, {login, toggleLoginInProgress} )(Login);

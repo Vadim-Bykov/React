@@ -1,4 +1,4 @@
-import style from './formsControls.module.css';
+import style from './formControls.module.css';
 
 export const FormControl = ({ input, meta, ...props }) => {
    // console.log(props)

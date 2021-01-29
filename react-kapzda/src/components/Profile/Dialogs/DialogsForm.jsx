@@ -1,6 +1,6 @@
 import { Field, reduxForm } from "redux-form";
 import { maxLengthCreator, required } from "../../../utils/validators";
-import { Textarea } from "../../common/preloader/formControls/formControls";
+import { Textarea } from "../../common/formControls/formControls";
 
 const maxLength = maxLengthCreator(30);
 

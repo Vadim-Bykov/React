@@ -8,6 +8,10 @@ import reportWebVitals from './reportWebVitals';
 import store from './redux/redux-store';
 import { Provider } from 'react-redux';
 
+// setInterval(() => {
+//   store.dispatch({ type: 'fake' });
+// }, 1000);
+
 export const renderEntireTree = (state) => {
   ReactDOM.render(
     <React.StrictMode>

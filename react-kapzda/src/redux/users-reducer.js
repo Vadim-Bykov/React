@@ -15,10 +15,14 @@ const initialState = {
   totalUsersCount: 0,
   isFetching: false,
   followingInProgress: [],
+  // fake: 10,
 };
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
+    // case 'fake':
+    //   return { ...state, fake: state.fake + 1 };
+
     case FOLLOW:
       return {
         ...state,
@@ -100,7 +104,7 @@ export const toggleFollowingProgress = (isFetching, userId) => ({
   userId,
 });
 
-export const getUsers = (currentPage, pageSize) => {
+export const requestUsers = (currentPage, pageSize) => {
   return (dispatch) => {
     dispatch(toggleIsFetching(true));
     usersAPI.getUsersData(currentPage, pageSize).then((res) => {

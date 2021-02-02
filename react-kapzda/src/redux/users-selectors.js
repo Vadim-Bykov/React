@@ -13,9 +13,10 @@
 // })
 
 export const getUsers = (state) => {
+  // console.log('Reselect');
   return state.usersPage.users;
 };
- 
+
 export const getPageSize = (state) => {
   return state.usersPage.pageSize;
 };

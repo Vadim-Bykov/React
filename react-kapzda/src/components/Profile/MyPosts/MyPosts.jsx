@@ -4,7 +4,12 @@ import React from 'react'
 import MyPostsForm from './MyPostsForm';
 // import { addPostActionCreator, updatePostActionCreator } from '../../../redux/profile-reducer';
 
-const MyPosts = (props) => {
+// shouldComponentUpdate(prevProps, prevState) {
+//    return prevProps !== this.props || prevState !== this.state
+// }
+
+const MyPosts = React.memo((props) => {
+   // console.log('MyPost')
 
    const postsElements = props.posts.map(post => <Post message={post.message} key={post.id} likesCount={post.likesCount} />);
 
@@ -22,5 +27,5 @@ const MyPosts = (props) => {
          </div>
       </div>
    );
-}
+})
 export default MyPosts;

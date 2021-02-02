@@ -1,14 +1,16 @@
+import React from 'react'
 import { NavLink } from 'react-router-dom';
 import style from './Users.module.css'
 
-const Users = (props) => {
+const Users = React.memo((props) => {
+   //   console.log('Users')
    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
       let pages = [];
 
       for (let i = 1; i <= pagesCount; i++){
          pages.push(i);
    };
-   return (
+  return (
       <div>
          <div className={style.pagesBlock}>
             {
@@ -53,6 +55,6 @@ const Users = (props) => {
          </div>)}
       </div>
    );
-};
+});
 
 export default Users;

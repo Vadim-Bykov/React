@@ -7,7 +7,7 @@ import Preloader from "../common/preloader/Preloader";
 import { compose } from "redux";
 import { getUsers, getPageSize, getCurrentPage, getTotalUsersCount, getIsFetching, getFollowingInProgress } from "../../redux/users-selectors";
 
-class UsersComponent extends React.Component  {
+class UsersComponent extends React.PureComponent {
    
    componentDidMount = () => {
       this.props.requestUsers(this.props.currentPage, this.props.pageSize);
@@ -22,7 +22,7 @@ class UsersComponent extends React.Component  {
       return (
          <>
             {this.props.isFetching
-               ? <Preloader/>
+               ? <Preloader />
                : null}
             <Users
                users={this.props.users}

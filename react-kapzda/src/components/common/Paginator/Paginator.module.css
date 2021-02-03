@@ -1,0 +1,15 @@
+.pagesBlock {
+  display: flex;
+  max-width: 80vw;
+  margin: 5px auto;
+  overflow: auto;
+}
+
+.selected {
+  font-weight: bold;
+}
+
+.span {
+  cursor: pointer;
+  margin-left: 3px;
+}

@@ -1,20 +1,25 @@
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { Field, Form, reduxForm } from "redux-form"
+import { Form, reduxForm } from "redux-form"
 // import { authAPI } from "../../API/api";
 import { login } from "../../redux/auth-reducer";
 import { maxLengthCreator, required } from "../../utils/validators";
-import { Input } from "../common/formControls/formControls";
+import { createField, Input } from "../common/formControls/formControls";
 import style from '../common/formControls/formControls.module.css'
 import { toggleLoginInProgress } from "../../redux/auth-reducer";
 
 
 const maxLength = maxLengthCreator(20);
 
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error, loginInProgress}) => {
    return (
-      <Form onSubmit={props.handleSubmit}>
-         <div>
+      <Form onSubmit={handleSubmit}>
+         
+         {createField([required, maxLength], "email", Input, "Enter email", {type:"text"})}
+         {createField([required, maxLength], "password", Input, "Enter password", {type:"password"})}
+         {createField([], "rememberMe", "input", "", { type: "checkbox" }, "Remember me")}
+         
+         {/* <div>
             <Field validate={[required, maxLength]} type="text" name="email" component={Input} placeholder="email" />
          </div>
          <div>
@@ -22,14 +27,14 @@ const LoginForm = (props) => {
          </div>
          <div>
             <Field type="checkbox" component="input" name="rememberMe" /> Remember me
-         </div>
-         { props.error &&
+         </div> */}
+         { error &&
             <div className={style.formError}>
-               {props.error}
+               {error}
             </div>
          }
          <div>
-            <button disabled={props.loginInProgress}>Login</button>
+            <button disabled={loginInProgress}>Login</button>
          </div>
       </Form>
    )
@@ -37,22 +42,22 @@ const LoginForm = (props) => {
 
 const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
 
-const Login = (props) => {
+const Login = ({login, isAuth, loginInProgress}) => {
    
    const onSubmit = (formData) => {
       // console.log(formData)
       const {email, password, rememberMe} = formData
-      props.login(email, password, rememberMe)
+      login(email, password, rememberMe)
    }
 
-   if (props.isAuth) {
+   if (isAuth) {
      return <Redirect to="/profile" />
    }
 
    return (
       <div>
          <h1>LOGIN</h1>
-         <LoginReduxForm onSubmit={onSubmit} loginInProgress={props.loginInProgress} />
+         <LoginReduxForm onSubmit={onSubmit} loginInProgress={loginInProgress} />
       </div>
    )
 }

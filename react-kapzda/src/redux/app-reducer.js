@@ -24,9 +24,9 @@ export const setInitializedSuccess = () => {
 };
 
 export const initializeApp = () => {
-  return (dispatch) => {
-    const promise = dispatch(getAuthUserData());
-    promise.then(() => dispatch(setInitializedSuccess()));
+  return async (dispatch) => {
+    await dispatch(getAuthUserData());
+    dispatch(setInitializedSuccess());
   };
 };
 

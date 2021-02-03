@@ -10,11 +10,13 @@ import { getUsers, getPageSize, getCurrentPage, getTotalUsersCount, getIsFetchin
 class UsersComponent extends React.PureComponent {
    
    componentDidMount = () => {
-      this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+      const { currentPage, pageSize, ...props } = this.props;
+      props.requestUsers(currentPage, pageSize);
    };
 
    changePage = (pageNumber) => {
-      this.props.requestUsers(pageNumber, this.props.pageSize);
+      const { pageSize } = this.props;
+      this.props.requestUsers(pageNumber, pageSize);
    }
 
    render = () => {

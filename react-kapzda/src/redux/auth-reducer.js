@@ -53,49 +53,44 @@ export const toggleLoginInProgress = (progress) => {
 };
 
 export const getAuthUserData = () => {
-  return (dispatch) => {
-    return authAPI.getAuthData().then((res) => {
-      if (res.data.resultCode === 0) {
-        const { id, email, login } = res.data.data;
-        dispatch(setAuthUserData(id, email, login, true));
-        profileAPI
-          .getProfileData(id)
-          .then((res) =>
-            dispatch(
-              setUserPhoto(
-                res.data.photos.small ||
-                  'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'
-              )
-            )
-          );
-      }
-    });
+  return async (dispatch) => {
+    const res = await authAPI.me();
+    if (res.data.resultCode === 0) {
+      const { id, email, login } = res.data.data;
+      dispatch(setAuthUserData(id, email, login, true));
+      const result = await profileAPI.getProfileData(id);
+
+      dispatch(
+        setUserPhoto(
+          result.data.photos.small ||
+            'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'
+        )
+      );
+    }
   };
 };
 
 export const login = (email, password, rememberMe = false) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleLoginInProgress(true));
-    authAPI.login(email, password, rememberMe).then((res) => {
-      if (res.data.resultCode === 0) {
-        dispatch(getAuthUserData());
-        dispatch(toggleLoginInProgress(false));
-      } else {
-        dispatch(
-          stopSubmit('login', { _error: res.data.messages[0] || 'Some error' })
-        );
-        dispatch(toggleLoginInProgress(false));
-      }
-    });
+    const res = await authAPI.login(email, password, rememberMe);
+    if (res.data.resultCode === 0) {
+      dispatch(getAuthUserData());
+      dispatch(toggleLoginInProgress(false));
+    } else {
+      dispatch(
+        stopSubmit('login', { _error: res.data.messages[0] || 'Some error' })
+      );
+      dispatch(toggleLoginInProgress(false));
+    }
   };
 };
 
 export const logout = () => {
-  return (dispatch) => {
-    authAPI.logout().then((res) => {
-      if (res.data.resultCode === 0)
-        dispatch(setAuthUserData(null, null, null, false));
-    });
+  return async (dispatch) => {
+    const res = await authAPI.logout();
+    if (res.data.resultCode === 0)
+      dispatch(setAuthUserData(null, null, null, false));
   };
 };
 

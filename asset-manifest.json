@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/React/static/css/main.27bdab57.chunk.css",
+    "main.js": "/React/static/js/main.2dffed18.chunk.js",
+    "main.js.map": "/React/static/js/main.2dffed18.chunk.js.map",
+    "runtime-main.js": "/React/static/js/runtime-main.4cbbfab0.js",
+    "runtime-main.js.map": "/React/static/js/runtime-main.4cbbfab0.js.map",
+    "static/js/2.113356fa.chunk.js": "/React/static/js/2.113356fa.chunk.js",
+    "static/js/2.113356fa.chunk.js.map": "/React/static/js/2.113356fa.chunk.js.map",
+    "static/js/3.e39416a7.chunk.js": "/React/static/js/3.e39416a7.chunk.js",
+    "static/js/3.e39416a7.chunk.js.map": "/React/static/js/3.e39416a7.chunk.js.map",
+    "index.html": "/React/index.html",
+    "static/css/main.27bdab57.chunk.css.map": "/React/static/css/main.27bdab57.chunk.css.map",
+    "static/js/2.113356fa.chunk.js.LICENSE.txt": "/React/static/js/2.113356fa.chunk.js.LICENSE.txt",
+    "static/media/circles.d78b5953.svg": "/React/static/media/circles.d78b5953.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4cbbfab0.js",
+    "static/js/2.113356fa.chunk.js",
+    "static/css/main.27bdab57.chunk.css",
+    "static/js/main.2dffed18.chunk.js"
+  ]
+}

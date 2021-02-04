@@ -15,11 +15,11 @@ import { Provider } from 'react-redux';
 export const renderEntireTree = (state) => {
   ReactDOM.render(
     <React.StrictMode>
-      <BrowserRouter>
-        <Provider store={store}>
+      <Provider store={store}>
+        <BrowserRouter basename={process.env.PUBLIC_URL} >
           <App />
-        </Provider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </Provider>
     </React.StrictMode>,
     document.getElementById('root')
   );

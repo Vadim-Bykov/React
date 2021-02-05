@@ -9,5 +9,9 @@
 
 .descriptionBlock{
   padding: 10px;
-  display: flex;
+  display: grid;
+}
+
+.contact{
+  margin-left: 20px;
 }

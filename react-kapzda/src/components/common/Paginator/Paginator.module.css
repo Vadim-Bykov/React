@@ -1,5 +1,6 @@
 .pagesBlock {
   display: flex;
+  justify-content: center;
   max-width: 80vw;
   margin: 5px auto;
   overflow: auto;
@@ -7,9 +8,10 @@
 
 .selected {
   font-weight: bold;
+  margin-left: 5px;
 }
 
 .span {
   cursor: pointer;
-  margin-left: 3px;
+  margin-left: 5px;
 }

@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { BrowserRouter, Route, withRouter } from 'react-router-dom';
 // import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
@@ -11,13 +11,14 @@ import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderComponent from './components/Header/HeaderComponent';
 import Login from './components/Login/Login';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 // import { getAuthUserData } from './redux/auth-reducer';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer';
 import Preloader from './components/common/preloader/Preloader';
+import store from './redux/redux-store';
 
-class App extends React.Component {
+class MainComponent extends React.Component {
   componentDidMount() {
     this.props.initializeApp();
   }
@@ -50,7 +51,19 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default compose(
+const MainComponentContainer = compose(
   withRouter,
   connect(mapStateToProps, { initializeApp })
-)(App);
+)(MainComponent);
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <MainComponentContainer />
+      </BrowserRouter>
+    </Provider>
+  );
+};
+
+export default App;

@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Route, withRouter } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom';
 // import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
@@ -22,8 +22,19 @@ const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileCo
 const DialogsContainer = React.lazy(() => import('./components/Profile/Dialogs/DialogsContainer'));
 
 class MainComponent extends React.Component {
+
+  catchAllPromiseErrors(e) {
+    // console.log(e.promise, e.reason)
+    alert('Some error occurred')
+  }
+
   componentDidMount() {
     this.props.initializeApp();
+    window.addEventListener('unhandledrejection', this.catchAllPromiseErrors);
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('unhandledrejection', this.catchAllPromiseErrors);
   }
 
   render() {
@@ -33,15 +44,22 @@ class MainComponent extends React.Component {
         <HeaderComponent />
         <Navbar />
         <div className='app-wrapper-content'>
-          <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)} />
-          <Route path='/dialogs' render={WithSuspense(DialogsContainer)} />
-          {/* <Route exact path="/dialogs" component={Dialogs} /> */}
-          {/* exact покажет только точный путь без подкаталогов /dialogs/1*/}
-          <Route path='/news' component={News} />
-          <Route path='/music' component={Music} />
-          <Route path='/settings' component={Settings} />
-          <Route path='/users' render={() => <UsersContainer />} />
-          <Route path='/login' render={() => <Login />} />
+          <Switch>
+            <Route exact path='/' render={() => <Redirect to='/profile' />} />
+            <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)} />
+            <Route path='/dialogs' render={WithSuspense(DialogsContainer)} />
+            {/* <Route exact path="/dialogs" component={Dialogs} /> */}
+            {/* exact покажет только точный путь без подкаталогов /dialogs/1*/}
+            <Route path='/news' component={News} />
+            <Route path='/music' component={Music} />
+            <Route path='/settings' component={Settings} />
+            <Route path='/users' render={() => <UsersContainer />} />
+            {/* Точные адреса вставляются выше /login/facebook чем /login со <Switch></Switch> без exact*/}
+            <Route path='/login/facebook' render={() => <div>facebook</div>} />
+            <Route path='/login' render={() => <Login />} />
+            {/* <Route exact path='/login' render={() => <Login />} /> */}
+            <Route path='*' render={() => <h1>404 NOT FOUND</h1>} />
+          </Switch>
         </div>
       </div>
     );

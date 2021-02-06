@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import style from './Paginator.module.css'
+import style from './Paginator.module.css';
+import cn from 'classnames';
 
 const Paginator = ({totalUsersCount,pageSize,changePage,currentPage, trackSize = 10}) => {
    let pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -17,7 +18,7 @@ const Paginator = ({totalUsersCount,pageSize,changePage,currentPage, trackSize =
 
    return (
       <div>
-         <div className={style.pagesBlock}>
+         <div className={cn(style.pagesBlock, style.pagesBG)}>
             <button onClick={() => setTrackNumber(trackNumber - 1)} disabled={trackNumber <= 1}>prev</button>
             {
                pages.filter((number) => {
@@ -25,7 +26,8 @@ const Paginator = ({totalUsersCount,pageSize,changePage,currentPage, trackSize =
                })
                .map((pageNumber, i) => <span
                   onClick={() => changePage(pageNumber)}
-                  className={currentPage === pageNumber ? style.selected : ('', style.span)}
+                  className={cn(style.span, {[style.selected]:currentPage === pageNumber})}
+                  // className={currentPage === pageNumber ? style.selected : ('', style.span)}
                   key={i}>{pageNumber}
                </span>)
             }

@@ -4,6 +4,7 @@ import { authAPI, profileAPI } from '../API/api';
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_USER_PHOTO = 'SET_USER_PHOTO';
 const TOGGLE_LOGIN_IN_PROGRESS = 'TOGGLE_LOGIN_IN_PROGRESS';
+const AUTH_GET_CAPTCHA_SUCCESS = 'AUTH_GET_CAPTCHA_SUCCESS';
 
 const initialState = {
   id: null,
@@ -13,11 +14,13 @@ const initialState = {
   photo: null,
   isFetching: true,
   loginInProgress: false,
+  captchaUrl: null
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_DATA:
+    case AUTH_GET_CAPTCHA_SUCCESS:
       return {
         ...state,
         ...action.payload,
@@ -43,6 +46,10 @@ const authReducer = (state = initialState, action) => {
 export const setAuthUserData = (id, email, login, isAuth) => {
   return { type: SET_USER_DATA, payload: { id, email, login, isAuth } };
 };
+
+const getCaptchaUrlSuccess = (captchaUrl) => {
+  return {type: AUTH_GET_CAPTCHA_SUCCESS, payload: {captchaUrl}}
+}
 
 export const setUserPhoto = (photo) => {
   return { type: SET_USER_PHOTO, photo };
@@ -70,14 +77,16 @@ export const getAuthUserData = () => {
   };
 };
 
-export const login = (email, password, rememberMe = false) => {
-  return async (dispatch) => {
+export const login = (email, password, rememberMe, captcha = null ) => {
+  return async (dispatch, getState) => {
     dispatch(toggleLoginInProgress(true));
-    const res = await authAPI.login(email, password, rememberMe);
+    const res = await authAPI.login(email, password, rememberMe, captcha);
     if (res.data.resultCode === 0) {
       dispatch(getAuthUserData());
       dispatch(toggleLoginInProgress(false));
+      getState().auth.captchaUrl = null;
     } else {
+      if(res.data.resultCode === 10) dispatch(getCaptcha())
       dispatch(
         stopSubmit('login', { _error: res.data.messages[0] || 'Some error' })
       );
@@ -93,5 +102,10 @@ export const logout = () => {
       dispatch(setAuthUserData(null, null, null, false));
   };
 };
+
+const getCaptcha = () => async (dispatch) => {
+  const res = await authAPI.getCaptcha();
+  dispatch(getCaptchaUrlSuccess(res.data.url));
+}
 
 export default authReducer;

@@ -3,6 +3,7 @@ import Preloader from '../../common/preloader/Preloader';
 import ReduxProfileDataForm from './ProfileDataForm';
 import s from './ProfileInfo.module.css';
 
+const defaultPhoto = 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg';
 
 const ProfileInfo = (props) => {
    const [editMode, setEditMode] = useState(false);
@@ -28,7 +29,8 @@ const ProfileInfo = (props) => {
          </div>
          <div className={s.descriptionBlock}>
             <div>
-               <img className={s.ava} src={props.profile.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'} alt="ava" />
+               <img className={s.ava} src={props.profile.photos.small || defaultPhoto} alt="ava" />
+               
                {props.isOwner && <input type="file" onChange={choosePhoto} />}
             </div>
             {editMode

@@ -11,7 +11,7 @@ import { toggleLoginInProgress } from "../../redux/auth-reducer";
 
 const maxLength = maxLengthCreator(20);
 
-const LoginForm = ({handleSubmit, error, loginInProgress}) => {
+const LoginForm = ({handleSubmit, error, loginInProgress, captchaUrl}) => {
    return (
       <Form onSubmit={handleSubmit}>
          
@@ -28,6 +28,10 @@ const LoginForm = ({handleSubmit, error, loginInProgress}) => {
          <div>
             <Field type="checkbox" component="input" name="rememberMe" /> Remember me
          </div> */}
+
+         {captchaUrl && <img src={captchaUrl} alt='captcha' />}
+         {captchaUrl && createField([required], "captcha", Input, "Enter symbols", {type:"text"})}
+
          { error &&
             <div className={style.formError}>
                {error}
@@ -42,12 +46,12 @@ const LoginForm = ({handleSubmit, error, loginInProgress}) => {
 
 const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
 
-const Login = ({login, isAuth, loginInProgress}) => {
+const Login = ({login, isAuth, loginInProgress, captchaUrl}) => {
    
    const onSubmit = (formData) => {
       // console.log(formData)
-      const {email, password, rememberMe} = formData
-      login(email, password, rememberMe)
+      const {email, password, rememberMe, captcha} = formData
+      login(email, password, rememberMe, captcha)
    }
 
    if (isAuth) {
@@ -57,7 +61,7 @@ const Login = ({login, isAuth, loginInProgress}) => {
    return (
       <div>
          <h1>LOGIN</h1>
-         <LoginReduxForm onSubmit={onSubmit} loginInProgress={loginInProgress} />
+         <LoginReduxForm onSubmit={onSubmit} loginInProgress={loginInProgress} captchaUrl={captchaUrl} />
       </div>
    )
 }
@@ -66,6 +70,8 @@ const mapStateToProps = (state) => {
    return {
       isAuth: state.auth.isAuth,
       loginInProgress: state.auth.loginInProgress,
+      captchaUrl: state.auth.captchaUrl,
+      
    }
 }
 

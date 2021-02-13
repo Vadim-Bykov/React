@@ -2,6 +2,8 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 import style from './Users.module.css';
 
+const defaultPhoto = 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg';
+
 const User = React.memo(({user,followingInProgress,unfollow, follow}) => {
 
    return (
@@ -10,7 +12,7 @@ const User = React.memo(({user,followingInProgress,unfollow, follow}) => {
             <div className={style.photoBlock}>
                <div>
                   <NavLink to={'./profile/' + user.id}>
-                     <img src={user.photos.small || 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'} className={style.usersPhoto} alt='ava' />
+                     <img src={user.photos.small || defaultPhoto} className={style.usersPhoto} alt='ava' />
                   </NavLink>
                </div>
                <div>

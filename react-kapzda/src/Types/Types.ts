@@ -34,5 +34,6 @@ export type userType = {
    name: string
    status: string
    photos: photosType
+   followed: boolean
  };
  

@@ -1,10 +1,19 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { userType } from '../../Types/Types';
 import style from './Users.module.css';
 
 const defaultPhoto = 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg';
 
-const User = React.memo(({user,followingInProgress,unfollow, follow}) => {
+type PropsType = {
+   user: userType
+   followingInProgress: Array<number>
+   unfollow: (id: number) => void
+   follow: (id: number) => void
+}
+
+
+const User: React.FC<PropsType> = ({user, followingInProgress, unfollow, follow}) => {
 
    return (
       <div className={style.userBlock}>
@@ -16,13 +25,15 @@ const User = React.memo(({user,followingInProgress,unfollow, follow}) => {
                   </NavLink>
                </div>
                <div>
-                  {user.followed
+                  {
+                     user.followed
                      ? <button disabled={followingInProgress.some(id => id === user.id)} className={style.btn}
                         onClick={() => unfollow(user.id)}
                      >Follow</button>
                      : <button disabled={followingInProgress.some(id => id === user.id)} className={style.btn}
                         onClick={() => follow(user.id)}
-                     >Unfollow</button>}
+                        >Unfollow</button>
+                  }
                </div>
             </div>
 
@@ -37,8 +48,8 @@ const User = React.memo(({user,followingInProgress,unfollow, follow}) => {
                </div>
             </div>
          </div>
-      </div>)
-}
-);
+      </div>
+   );
+};
 
 export default User;

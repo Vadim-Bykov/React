@@ -10,12 +10,15 @@ type PropsType = {
    trackSize?: number
 }
 
-const Paginator: React.FC<PropsType> = ({totalUsersCount,pageSize,changePage,currentPage, trackSize = 10}) => {
+const Paginator: React.FC<PropsType> = ({ totalUsersCount, pageSize, changePage, currentPage, trackSize = 10 }) => {
+   
    let pagesCount = Math.ceil(totalUsersCount / pageSize);
 
    let pages: Array<number> = [];
    
    const tracksCount = Math.ceil(pagesCount / trackSize);
+
+   // const [trackNumber, setTrackNumber] = useState<number>(1);
    const [trackNumber, setTrackNumber] = useState(1);
 
    const leftNumberInTrack = (trackNumber - 1) * trackSize + 1;

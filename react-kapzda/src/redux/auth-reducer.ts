@@ -1,4 +1,4 @@
-import { type } from 'os';
+// import { type } from 'os';
 import { stopSubmit } from 'redux-form';
 import { authAPI, profileAPI } from '../API/api';
 

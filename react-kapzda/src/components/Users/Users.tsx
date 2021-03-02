@@ -1,9 +1,7 @@
-import { type } from 'os';
 import React from 'react'
 import { userType } from '../../Types/Types';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
-import style from './Users.module.css'
 
 type PropsTypes = {
    totalUsersCount: number
@@ -12,8 +10,8 @@ type PropsTypes = {
    currentPage: number
    users: Array<userType>
    followingInProgress: Array<number>
-   unfollow: () => void
-   follow: () => void
+   unfollow: (userId: number) => void
+   follow: (userId: number) => void
    // user?: any
 };
 
@@ -30,7 +28,6 @@ const Users: React.FC<PropsTypes> = React.memo(({totalUsersCount,pageSize,change
             unfollow={props.unfollow}
             follow={props.follow}
             key={user.id}
-            className={style.userBlock}
          />)}
       </div>
    );

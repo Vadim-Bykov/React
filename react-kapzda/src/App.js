@@ -8,7 +8,7 @@ import Music from './components/Music/Music';
 import Settings from './components/Profile/Settings/Settings';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderComponent from './components/Header/HeaderComponent';
-import Login from './components/Login/Login';
+import Login from './components/Login/LoginTSX';
 import { connect, Provider } from 'react-redux';
 // import { getAuthUserData } from './redux/auth-reducer';
 import { compose } from 'redux';
@@ -53,7 +53,7 @@ class MainComponent extends React.Component {
             <Route path='/news' component={News} />
             <Route path='/music' component={Music} />
             <Route path='/settings' component={Settings} />
-            <Route path='/users' render={() => <UsersContainer />} />
+            <Route path='/users' render={() => <UsersContainer pageTitle='Samurai' />} />
             {/* Точные адреса вставляются выше /login/facebook чем /login со <Switch></Switch> без exact*/}
             <Route path='/login/facebook' render={() => <div>facebook</div>} />
             <Route path='/login' render={() => <Login />} />

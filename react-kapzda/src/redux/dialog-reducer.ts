@@ -1,6 +1,4 @@
-import { type } from 'os';
 const ADD_MESSAGE = "ADD-MESSAGE";
-// const UPDATE_MESSAGE_TEXT = 'UPDATE_MESSAGE_TEXT';
 
 type dialogType = {
   id: number
@@ -59,9 +57,5 @@ export const addMessageActionCreator = (newMessage: string): addMessageActionCre
   return { type: ADD_MESSAGE, newMessage };
 };
 
-// export const updateMessageActionCreator = (currentText: string) => {
-//   const action = { type: UPDATE_MESSAGE_TEXT, text: currentText };
-//   return action;
-// };
 
 export default dialogReducer;

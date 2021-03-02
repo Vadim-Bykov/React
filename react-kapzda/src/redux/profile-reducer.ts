@@ -110,7 +110,7 @@ type savePhotoSuccessActionType = {
   photo: photosType
 }
 
-export const savePhotoSuccess = (photo:photosType) => {
+export const savePhotoSuccess = (photo:photosType): savePhotoSuccessActionType => {
   return { type: SAVE_PHOTO_SUCCESS, photo };
 };
 

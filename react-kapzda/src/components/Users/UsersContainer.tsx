@@ -93,10 +93,14 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
    }
 };
 
+const mapDispatchToProps = {
+   follow, unfollow, requestUsers
+}
+
 /* TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState */
 
 const UsersContainer = compose(
-   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, { follow, unfollow, requestUsers }),
+   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps),
    // WithAuthRedirect
 )(UsersComponent);
 

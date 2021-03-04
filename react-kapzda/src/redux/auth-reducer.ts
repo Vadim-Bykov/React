@@ -1,6 +1,9 @@
 // import { type } from 'os';
+import { Action, Dispatch } from 'redux';
 import { stopSubmit } from 'redux-form';
+import { ThunkAction } from 'redux-thunk';
 import { authAPI, profileAPI } from '../API/api';
+import { AppStateType } from './redux-store';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_USER_PHOTO = 'SET_USER_PHOTO';
@@ -23,7 +26,7 @@ const initialState = {
   email: null as string | null,
   login: null as string | null,
   isAuth: false as boolean,
-  photo: null as any,
+  photo: null as string | null,
   isFetching: true as boolean,
   loginInProgress: false as boolean,
   captchaUrl: null as string | null 
@@ -31,7 +34,7 @@ const initialState = {
 
 export type initialStateType = typeof initialState;
 
-const authReducer = (state = initialState, action: any) : initialStateType => {
+const authReducer = (state = initialState, action: ActionsTypes) : initialStateType => {
   switch (action.type) {
     case SET_USER_DATA:
     case AUTH_GET_CAPTCHA_SUCCESS:
@@ -57,12 +60,14 @@ const authReducer = (state = initialState, action: any) : initialStateType => {
   }
 };
 
+type ActionsTypes = setAuthUserDataActionType | getCaptchaUrlSuccessActionType | setUserPhotoType | toggleLoginInProgressType;
+
 type payloadActionType = {
   id: number | null
   email: string | null
   login: string | null
-  isAuth:boolean | null
-}
+  isAuth: boolean
+};
 
 type setAuthUserDataActionType = {
   type: typeof SET_USER_DATA,
@@ -82,16 +87,31 @@ const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessActionTyp
   return {type: AUTH_GET_CAPTCHA_SUCCESS, payload: {captchaUrl}}
 }
 
-export const setUserPhoto = (photo: any) => {
+type setUserPhotoType = {
+  type: typeof SET_USER_PHOTO
+  photo: string
+}
+
+export const setUserPhoto = (photo: string): setUserPhotoType => {
   return { type: SET_USER_PHOTO, photo };
 };
 
-export const toggleLoginInProgress = (progress: boolean) => {
+type toggleLoginInProgressType = {
+  type: typeof TOGGLE_LOGIN_IN_PROGRESS
+  progress: boolean
+}
+
+export const toggleLoginInProgress = (progress: boolean): toggleLoginInProgressType => {
   return { type: TOGGLE_LOGIN_IN_PROGRESS, progress };
 };
 
-export const getAuthUserData = () => {
-  return async (dispatch: any) => {
+
+// type DispatchType = Dispatch<ActionsTypes>
+// type GetStateType = () => AppStateType;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+export const getAuthUserData = (): ThunkType => {
+  return async (dispatch, getState) => {
     const res = await authAPI.me();
     if (res.data.resultCode === 0) {
       const { id, email, login } = res.data.data;
@@ -108,8 +128,8 @@ export const getAuthUserData = () => {
   };
 };
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha?: string) => {
-  return async (dispatch: any, getState: Function) => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha?: string): ThunkType => {
+  return async (dispatch, getState) => {
     dispatch(toggleLoginInProgress(true));
     const res = await authAPI.login(email, password, rememberMe, captcha);
     if (res.data.resultCode === 0) {
@@ -119,6 +139,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     } else {
       if(res.data.resultCode === 10) dispatch(getCaptcha())
       dispatch(
+        // @ts-ignore
         stopSubmit('login', { _error: res.data.messages[0] || 'Some error' })
       );
       dispatch(toggleLoginInProgress(false));

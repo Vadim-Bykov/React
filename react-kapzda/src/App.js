@@ -8,7 +8,7 @@ import Music from './components/Music/Music';
 import Settings from './components/Profile/Settings/Settings';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderComponent from './components/Header/HeaderComponent';
-import Login from './components/Login/LoginTSX';
+import Login from './components/Login/Login';
 import { connect, Provider } from 'react-redux';
 // import { getAuthUserData } from './redux/auth-reducer';
 import { compose } from 'redux';

@@ -2,7 +2,7 @@
 import { Action, Dispatch } from 'redux';
 import { stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
-import { authAPI, profileAPI } from '../API/api';
+import { authAPI, profileAPI, ResultCodeCaptcha, ResultCodeEnum } from '../API/api';
 import { AppStateType } from './redux-store';
 
 const SET_USER_DATA = 'SET_USER_DATA';
@@ -113,11 +113,11 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 export const getAuthUserData = (): ThunkType => {
   return async (dispatch, getState) => {
     const res = await authAPI.me();
-    if (res.data.resultCode === 0) {
-      const { id, email, login } = res.data.data;
+    if (res.resultCode === ResultCodeEnum.Success) {
+      const { id, email, login } = res.data;
       dispatch(setAuthUserData(id, email, login, true));
-      const result = await profileAPI.getProfileData(id);
 
+      const result = await profileAPI.getProfileData(id);
       dispatch(
         setUserPhoto(
           result.data.photos.small ||
@@ -132,15 +132,16 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
   return async (dispatch, getState) => {
     dispatch(toggleLoginInProgress(true));
     const res = await authAPI.login(email, password, rememberMe, captcha);
-    if (res.data.resultCode === 0) {
+    if (res.resultCode === ResultCodeEnum.Success) {
       dispatch(getAuthUserData());
       dispatch(toggleLoginInProgress(false));
       getState().auth.captchaUrl = null;
     } else {
-      if(res.data.resultCode === 10) dispatch(getCaptcha())
+      if (res.resultCode === ResultCodeCaptcha.CaptchaIsRequired) dispatch(getCaptcha())
+      
       dispatch(
         // @ts-ignore
-        stopSubmit('login', { _error: res.data.messages[0] || 'Some error' })
+        stopSubmit('login', { _error: res.messages[0] || 'Some error' })
       );
       dispatch(toggleLoginInProgress(false));
     }

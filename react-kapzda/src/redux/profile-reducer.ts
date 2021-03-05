@@ -151,7 +151,7 @@ export const updateUserStatus = (status: string): ThunkType => {
 export const savePhoto = (photo: any): ThunkType => {
   return async (dispatch) => {
     const res = await profileAPI.savePhoto(photo);
-    if (res.data.resultCode === 0) dispatch(savePhotoSuccess(res.data.data.photos));
+    if (res.resultCode === 0) dispatch(savePhotoSuccess(res.data.photos));
   };
 };
 
@@ -160,6 +160,7 @@ export const saveProfile = (profile:profileType): ThunkType => {
     const userId = getState().auth.id;
     const res = await profileAPI.saveProfile(profile);
     if (res.data.resultCode === 0) {
+      
       // @ts-ignore
       dispatch(getUserProfileInfo(userId));
     } else {

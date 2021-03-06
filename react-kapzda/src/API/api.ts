@@ -11,7 +11,7 @@ const instance = axios.create({
 
 export enum ResultCodeEnum {
   Success = 0,
-  Error = 1
+  Error = 1,
 }
 
 export enum ResultCodeCaptcha {
@@ -41,16 +41,16 @@ export const usersAPI = {
 };
 
 type UpdateStatusAndProfileType = {
-  resultCode: ResultCodeEnum
-  messages: Array<string>
-  data: any
-}
+  resultCode: ResultCodeEnum;
+  messages: Array<string>;
+  data: any;
+};
 
 type SavePhotoType = {
-  data: { photos: photosType }
-  resultCode: ResultCodeEnum
-  messages: Array<string>
-}
+  data: { photos: photosType };
+  resultCode: ResultCodeEnum;
+  messages: Array<string>;
+};
 
 export const profileAPI = {
   getProfileData(userId: number) {
@@ -62,61 +62,83 @@ export const profileAPI = {
   },
 
   updateStatus(status: string) {
-    return instance.put<UpdateStatusAndProfileType>(`profile/status`, { status: status });
+    return instance.put<UpdateStatusAndProfileType>(`profile/status`, {
+      status: status,
+    });
   },
 
   savePhoto(file: any) {
     const formData = new FormData();
     formData.append('image', file);
 
-    return instance.put<SavePhotoType>(`profile/photo`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-      .then(res => res.data);
+    return instance
+      .put<SavePhotoType>(`profile/photo`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => res.data);
   },
 
   saveProfile(profile: profileType) {
-    return instance.put<UpdateStatusAndProfileType>(`profile`, profile)
-  }
+    return instance.put<UpdateStatusAndProfileType>(`profile`, profile);
+  },
 };
 
 type MeResponseType = {
   data: {
-    id: number
-    email: string
-    login: string
-  }
-  resultCode: ResultCodeEnum
-  messages: Array<string>
-}
+    id: number;
+    email: string;
+    login: string;
+  };
+  resultCode: ResultCodeEnum;
+  messages: Array<string>;
+};
 
 type LoginResponseType = {
-  data:  {
-    userId: number
-  }
-  resultCode: ResultCodeEnum | ResultCodeCaptcha
+  data: {
+    userId: number;
+  };
+  resultCode: ResultCodeEnum | ResultCodeCaptcha;
+  messages: Array<string>;
+};
+
+type LogoutType = {
+  resultCode: number
   messages: Array<string>
+  data: {}
+};
+
+type GetCaptchaType = {
+  url: string
 }
 
 export const authAPI = {
   me() {
-    return instance.get<MeResponseType>(`auth/me`).then(res => res.data);
+    return instance.get<MeResponseType>(`auth/me`).then((res) => res.data);
   },
 
-  login(email: string, password: string, rememberMe: boolean, captcha: string | null = null) {
+  login(
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    captcha: string | null = null
+  ) {
     return instance
-      .post<LoginResponseType>(`auth/login`, { email, password, rememberMe, captcha })
-      .then(res=> res.data);
+      .post<LoginResponseType>(`auth/login`, {
+        email,
+        password,
+        rememberMe,
+        captcha,
+      })
+      .then((res) => res.data);
   },
 
   logout() {
-    return instance.delete(`auth/login`);
+    return instance.delete<LogoutType>(`auth/login`);
   },
 
   getCaptcha() {
-    return instance.get(`security/get-captcha-url`)
-  }
+    return instance.get<GetCaptchaType>(`security/get-captcha-url`);
+  },
 };
-

@@ -7,7 +7,6 @@ import { maxLengthCreator, required } from '../../utils/validators';
 import { createField, Input } from '../common/formControls/formControls';
 import style from '../common/formControls/formControls.module.css';
 import { AppStateType } from '../../redux/redux-store';
-import { type } from 'node:os';
 
 type LoginFormOwnProps = {
   captchaUrl: string | null;
@@ -21,12 +20,24 @@ const LoginForm: React.FC<
 > = ({ handleSubmit, error, loginInProgress, captchaUrl }) => {
   return (
     <Form onSubmit={handleSubmit}>
-      {createField<FormKeysType>([required, maxLength], 'email', Input, 'Enter email', {
-        type: 'text',
-      })}
-      {createField<FormKeysType>([required, maxLength], 'password', Input, 'Enter password', {
-        type: 'password',
-      })}
+      {createField<FormKeysType>(
+        [required, maxLength],
+        'email',
+        Input,
+        'Enter email',
+        {
+          type: 'text',
+        }
+      )}
+      {createField<FormKeysType>(
+        [required, maxLength],
+        'password',
+        Input,
+        'Enter password',
+        {
+          type: 'password',
+        }
+      )}
       {createField<FormKeysType>(
         [],
         'rememberMe',

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { photosType, profileType } from '../Types/Types';
 
 const instance = axios.create({

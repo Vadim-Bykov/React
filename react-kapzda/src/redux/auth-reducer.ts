@@ -1,5 +1,4 @@
 // import { type } from 'os';
-import { Action, Dispatch } from 'redux';
 import { stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
 import { authAPI, profileAPI, ResultCodeCaptcha, ResultCodeEnum } from '../API/api';

@@ -1,4 +1,3 @@
-import { Dispatch } from 'redux';
 import { stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
 import { profileAPI } from '../API/api';

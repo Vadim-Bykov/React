@@ -1,7 +1,9 @@
 // import { type } from 'os';
 import { stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
-import { authAPI, profileAPI, ResultCodeCaptcha, ResultCodeEnum } from '../API/api';
+import { ResultCodeCaptcha, ResultCodeEnum } from '../API/api';
+import { authAPI } from '../API/auth-api';
+import { profileAPI } from '../API/profile-api';
 import { AppStateType } from './redux-store';
 
 const SET_USER_DATA = 'SET_USER_DATA';
@@ -119,7 +121,7 @@ export const getAuthUserData = (): ThunkType => {
       const result = await profileAPI.getProfileData(id);
       dispatch(
         setUserPhoto(
-          result.data.photos.small ||
+          result.photos.small ||
             'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'
         )
       );
@@ -157,7 +159,7 @@ export const logout = () => {
 
 const getCaptcha = () => async (dispatch: any) => {
   const res = await authAPI.getCaptcha();
-  dispatch(getCaptchaUrlSuccess(res.data.url));
+  dispatch(getCaptchaUrlSuccess(res.url));
 }
 
 export default authReducer;

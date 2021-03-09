@@ -1,6 +1,7 @@
 import { stopSubmit } from 'redux-form';
 import { ThunkAction } from 'redux-thunk';
-import { profileAPI } from '../API/api';
+import { profileAPI } from '../API/profile-api';
+// import { profileAPI } from '../API/api';
 import { photosType, postType, profileType } from '../Types/Types';
 import { AppStateType } from './redux-store';
 
@@ -125,14 +126,14 @@ export type ThunkType = ThunkAction<void, AppStateType, unknown, ActionTypes>;
 export const getUserProfileInfo = (userId: number): ThunkType => {
   return async (dispatch, getState) => {
     const res = await profileAPI.getProfileData(userId);
-    dispatch(setUserProfile(res.data));
+    dispatch(setUserProfile(res));
   };
 };
 
 export const getUserStatus = (userId: number): ThunkType => {
   return async (dispatch) => {
     const res = await profileAPI.getStatus(userId);
-    dispatch(setStatus(res.data));
+    dispatch(setStatus(res));
   };
 };
 

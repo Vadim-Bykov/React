@@ -1,7 +1,6 @@
 import { GetUsersItemsType, instance, ResponseType } from "./api";
 
 
-
 export const usersAPI = {
   unfollow(id: number) {
     return instance.delete(`follow/${id}`).then((res) => res.data) as Promise<ResponseType>;

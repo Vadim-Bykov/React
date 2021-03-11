@@ -23,7 +23,7 @@ export const profileAPI = {
     });
   },
 
-  savePhoto(file: any) {
+  savePhoto(file: File) {
     const formData = new FormData();
     formData.append('image', file);
 

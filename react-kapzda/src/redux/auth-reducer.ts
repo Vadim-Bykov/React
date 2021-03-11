@@ -1,10 +1,8 @@
-// import { type } from 'os';
-import { stopSubmit } from 'redux-form';
-import { ThunkAction } from 'redux-thunk';
+import { FormAction, stopSubmit } from 'redux-form';
 import { ResultCodeCaptcha, ResultCodeEnum } from '../API/api';
 import { authAPI } from '../API/auth-api';
 import { profileAPI } from '../API/profile-api';
-import { AppStateType } from './redux-store';
+import { BaseThunkType, InferActionsTypes } from './redux-store';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_USER_PHOTO = 'SET_USER_PHOTO';
@@ -30,12 +28,13 @@ const initialState = {
   photo: null as string | null,
   isFetching: true as boolean,
   loginInProgress: false as boolean,
-  captchaUrl: null as string | null 
+  captchaUrl: null as string | null,
 };
 
-export type initialStateType = typeof initialState;
-
-const authReducer = (state = initialState, action: ActionsTypes) : initialStateType => {
+const authReducer = (
+  state = initialState,
+  action: ActionsTypes
+): initialStateType => {
   switch (action.type) {
     case SET_USER_DATA:
     case AUTH_GET_CAPTCHA_SUCCESS:
@@ -61,66 +60,45 @@ const authReducer = (state = initialState, action: ActionsTypes) : initialStateT
   }
 };
 
-type ActionsTypes = setAuthUserDataActionType | getCaptchaUrlSuccessActionType | setUserPhotoType | toggleLoginInProgressType;
+export const actions = {
+  setAuthUserData: (
+    id: number | null,
+    email: string | null,
+    login: string | null,
+    isAuth: boolean
+  ) =>
+    ({
+      type: SET_USER_DATA,
+      payload: { id, email, login, isAuth },
+    } as const),
 
-type payloadActionType = {
-  id: number | null
-  email: string | null
-  login: string | null
-  isAuth: boolean
+  getCaptchaUrlSuccess: (captchaUrl: string) => {
+    return { type: AUTH_GET_CAPTCHA_SUCCESS, payload: { captchaUrl } } as const;
+  },
+
+  setUserPhoto: (photo: string) => {
+    return { type: SET_USER_PHOTO, photo } as const;
+  },
+
+  toggleLoginInProgress: (progress: boolean) => {
+    return { type: TOGGLE_LOGIN_IN_PROGRESS, progress } as const;
+  },
 };
-
-type setAuthUserDataActionType = {
-  type: typeof SET_USER_DATA,
-  payload: payloadActionType
-}
-
-export const setAuthUserData = (id: number | null, email: string | null, login: string | null, isAuth: boolean): setAuthUserDataActionType => {
-  return { type: SET_USER_DATA, payload: { id, email, login, isAuth } };
-};
-
-type getCaptchaUrlSuccessActionType = {
-  type: typeof AUTH_GET_CAPTCHA_SUCCESS
-  payload: {captchaUrl: string}
-}
-
-const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessActionType => {
-  return {type: AUTH_GET_CAPTCHA_SUCCESS, payload: {captchaUrl}}
-}
-
-type setUserPhotoType = {
-  type: typeof SET_USER_PHOTO
-  photo: string
-}
-
-export const setUserPhoto = (photo: string): setUserPhotoType => {
-  return { type: SET_USER_PHOTO, photo };
-};
-
-type toggleLoginInProgressType = {
-  type: typeof TOGGLE_LOGIN_IN_PROGRESS
-  progress: boolean
-}
-
-export const toggleLoginInProgress = (progress: boolean): toggleLoginInProgressType => {
-  return { type: TOGGLE_LOGIN_IN_PROGRESS, progress };
-};
-
 
 // type DispatchType = Dispatch<ActionsTypes>
 // type GetStateType = () => AppStateType;
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+// type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getAuthUserData = (): ThunkType => {
   return async (dispatch, getState) => {
     const res = await authAPI.me();
     if (res.resultCode === ResultCodeEnum.Success) {
       const { id, email, login } = res.data;
-      dispatch(setAuthUserData(id, email, login, true));
+      dispatch(actions.setAuthUserData(id, email, login, true));
 
       const result = await profileAPI.getProfileData(id);
       dispatch(
-        setUserPhoto(
+        actions.setUserPhoto(
           result.photos.small ||
             'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg'
         )
@@ -129,37 +107,92 @@ export const getAuthUserData = (): ThunkType => {
   };
 };
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha?: string): ThunkType => {
+export const login = (
+  email: string,
+  password: string,
+  rememberMe: boolean,
+  captcha?: string
+): ThunkType => {
   return async (dispatch, getState) => {
-    dispatch(toggleLoginInProgress(true));
+    dispatch(actions.toggleLoginInProgress(true));
     const res = await authAPI.login(email, password, rememberMe, captcha);
     if (res.resultCode === ResultCodeEnum.Success) {
       dispatch(getAuthUserData());
-      dispatch(toggleLoginInProgress(false));
+      dispatch(actions.toggleLoginInProgress(false));
       getState().auth.captchaUrl = null;
     } else {
-      if (res.resultCode === ResultCodeCaptcha.CaptchaIsRequired) dispatch(getCaptcha())
-      
+      if (res.resultCode === ResultCodeCaptcha.CaptchaIsRequired)
+        dispatch(getCaptcha());
+
       dispatch(
-        // @ts-ignore
         stopSubmit('login', { _error: res.messages[0] || 'Some error' })
       );
-      dispatch(toggleLoginInProgress(false));
+      dispatch(actions.toggleLoginInProgress(false));
     }
   };
 };
 
-export const logout = () => {
-  return async (dispatch: any) => {
+export const logout = (): ThunkType => {
+  return async (dispatch) => {
     const res = await authAPI.logout();
     if (res.data.resultCode === 0)
-      dispatch(setAuthUserData(null, null, null, false));
+      dispatch(actions.setAuthUserData(null, null, null, false));
   };
 };
 
-const getCaptcha = () => async (dispatch: any) => {
+// Можно использовать BaseThunkType чтобы не ограничивать принимаемые actions из других reducers
+const getCaptcha = (): BaseThunkType => async (dispatch) => {
   const res = await authAPI.getCaptcha();
-  dispatch(getCaptchaUrlSuccess(res.url));
-}
+  dispatch(actions.getCaptchaUrlSuccess(res.url));
+};
 
 export default authReducer;
+
+export type initialStateType = typeof initialState;
+type ActionsTypes = InferActionsTypes<typeof actions>;
+type ThunkType = BaseThunkType<ActionsTypes | FormAction>;
+
+// type ActionsTypes = setAuthUserDataActionType | getCaptchaUrlSuccessActionType | setUserPhotoType | toggleLoginInProgressType;
+
+// type payloadActionType = {
+//   id: number | null
+//   email: string | null
+//   login: string | null
+//   isAuth: boolean
+// };
+
+// type setAuthUserDataActionType = {
+//   type: typeof SET_USER_DATA,
+//   payload: payloadActionType
+// }
+
+// export const setAuthUserData = (id: number | null, email: string | null, login: string | null, isAuth: boolean): setAuthUserDataActionType => {
+//   return { type: SET_USER_DATA, payload: { id, email, login, isAuth } };
+// };
+
+// type getCaptchaUrlSuccessActionType = {
+//   type: typeof AUTH_GET_CAPTCHA_SUCCESS
+//   payload: {captchaUrl: string}
+// }
+
+// const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessActionType => {
+//   return {type: AUTH_GET_CAPTCHA_SUCCESS, payload: {captchaUrl}}
+// }
+
+// type setUserPhotoType = {
+//   type: typeof SET_USER_PHOTO
+//   photo: string
+// }
+
+// export const setUserPhoto = (photo: string): setUserPhotoType => {
+//   return { type: SET_USER_PHOTO, photo };
+// };
+
+// type toggleLoginInProgressType = {
+//   type: typeof TOGGLE_LOGIN_IN_PROGRESS
+//   progress: boolean
+// }
+
+// export const toggleLoginInProgress = (progress: boolean): toggleLoginInProgressType => {
+//   return { type: TOGGLE_LOGIN_IN_PROGRESS, progress };
+// };

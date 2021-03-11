@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import profileReducer, {
-  addPostActionCreator,
-  deletePost,
-} from './profile-reducer';
+import profileReducer, { actions } from './profile-reducer';
 
 const initialState = {
   posts: [
@@ -12,11 +9,14 @@ const initialState = {
     { id: 3, message: 'Hi!', likesCount: 13 },
     { id: 4, message: 'Yoo', likesCount: 14 },
   ],
+  profile: null,
+  status: '',
+  postText: '',
 };
 
 it('new post should be added', () => {
   // 1. test data
-  const action = addPostActionCreator('My new test post');
+  const action = actions.addPostActionCreator('My new test post');
 
   // 2. action
   const newState = profileReducer(initialState, action);
@@ -27,7 +27,7 @@ it('new post should be added', () => {
 
 it('new post should be correct', () => {
   // 1. test data
-  const action = addPostActionCreator('My new test post');
+  const action = actions.addPostActionCreator('My new test post');
 
   // 2. action
   const newState = profileReducer(initialState, action);
@@ -40,7 +40,7 @@ it('new post should be correct', () => {
 
 it('new post id should be correct', () => {
   // 1. test data
-  const action = addPostActionCreator('My new test post');
+  const action = actions.addPostActionCreator('My new test post');
 
   // 2. action
   const newState = profileReducer(initialState, action);
@@ -52,7 +52,7 @@ it('new post id should be correct', () => {
 
 it('new post likesCount should be correct', () => {
   // 1. test data
-  const action = addPostActionCreator('My new test post');
+  const action = actions.addPostActionCreator('My new test post');
 
   // 2. action
   const newState = profileReducer(initialState, action);
@@ -63,7 +63,7 @@ it('new post likesCount should be correct', () => {
 
 it('delete test', () => {
   // 1. test data
-  const action = deletePost(1);
+  const action = actions.deletePost(1);
 
   // 2. action
   const newState = profileReducer(initialState, action);

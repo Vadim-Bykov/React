@@ -8,26 +8,25 @@ import reportWebVitals from './reportWebVitals';
 import store from './redux/redux-store';
 import { Provider } from 'react-redux';
 
-// setInterval(() => {
-//   store.dispatch({ type: 'fake' });
-// }, 1000);
 
-export const renderEntireTree = (state) => {
-  ReactDOM.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <BrowserRouter basename={process.env.PUBLIC_URL} >
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </React.StrictMode>,
-    document.getElementById('root')
-  );
-};
+// export const renderEntireTree = (state) => {
+//   ReactDOM.render(
+//     <React.StrictMode>
+//       <Provider store={store}>
+//         <BrowserRouter basename={process.env.PUBLIC_URL} >
+//           <App />
+//         </BrowserRouter>
+//       </Provider>
+//     </React.StrictMode>,
+//     document.getElementById('root')
+//   );
+// };
 
-renderEntireTree(store.getState());
-// store.subscribe(() => {
-//   renderEntireTree(store.getState());
-// });
+// renderEntireTree(store.getState());
+// // store.subscribe(() => {
+// //   renderEntireTree(store.getState());
+// // });
 
-reportWebVitals();
+// reportWebVitals();
+
+ReactDOM.render(<App />, document.getElementById('root'));

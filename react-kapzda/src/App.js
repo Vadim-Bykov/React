@@ -1,6 +1,12 @@
 import './App.css';
-import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import React, { ComponentType } from 'react';
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Switch,
+  withRouter,
+} from 'react-router-dom';
 // import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
@@ -14,27 +20,39 @@ import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer';
 import Preloader from './components/common/preloader/Preloader';
-import store from './redux/redux-store';
+import store, { AppStateType } from './redux/redux-store';
 import WithSuspense from './components/HOC/withSuspense';
 // import ProfileContainer from './components/Profile/ProfileContainer';
 // import DialogsContainer from './components/Profile/Dialogs/DialogsContainer';
-const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
-const DialogsContainer = React.lazy(() => import('./components/Profile/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() =>
+  import('./components/Profile/ProfileContainer')
+);
+const DialogsContainer = React.lazy(() =>
+  import('./components/Profile/Dialogs/DialogsContainer')
+);
+
+// type MapPropsType = ReturnType<typeof mapStateToProps>;
+
+// type DispatchPropsType = {
+//   initializeApp: () => void
+// }
 
 class MainComponent extends React.Component {
-
   catchAllPromiseErrors(e) {
     // console.log(e.promise, e.reason)
-    alert('Some error occurred')
+    alert('Some error occurred');
   }
 
   componentDidMount() {
     this.props.initializeApp();
     window.addEventListener('unhandledrejection', this.catchAllPromiseErrors);
   }
-  
+
   componentWillUnmount() {
-    window.removeEventListener('unhandledrejection', this.catchAllPromiseErrors);
+    window.removeEventListener(
+      'unhandledrejection',
+      this.catchAllPromiseErrors
+    );
   }
 
   render() {
@@ -46,14 +64,20 @@ class MainComponent extends React.Component {
         <div className='app-wrapper-content'>
           <Switch>
             <Route exact path='/' render={() => <Redirect to='/profile' />} />
-            <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)} />
+            <Route
+              path='/profile/:userId?'
+              render={WithSuspense(ProfileContainer)}
+            />
             <Route path='/dialogs' render={WithSuspense(DialogsContainer)} />
             {/* <Route exact path="/dialogs" component={Dialogs} /> */}
             {/* exact покажет только точный путь без подкаталогов /dialogs/1*/}
             <Route path='/news' component={News} />
             <Route path='/music' component={Music} />
             <Route path='/settings' component={Settings} />
-            <Route path='/users' render={() => <UsersContainer pageTitle='Samurai' />} />
+            <Route
+              path='/users'
+              render={() => <UsersContainer pageTitle='Samurai' />}
+            />
             {/* Точные адреса вставляются выше /login/facebook чем /login со <Switch></Switch> без exact*/}
             <Route path='/login/facebook' render={() => <div>facebook</div>} />
             <Route path='/login' render={() => <Login />} />

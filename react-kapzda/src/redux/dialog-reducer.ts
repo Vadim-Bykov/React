@@ -2,12 +2,12 @@ import { InferActionsTypes } from './redux-store';
 
 const ADD_MESSAGE = 'ADD-MESSAGE';
 
-type dialogType = {
+export type dialogType = {
   id: number;
   name: string;
 };
 
-type messageType = {
+export type messageType = {
   id: number;
   message: string;
 };
@@ -52,7 +52,7 @@ const dialogReducer = (
 };
 
 export const actions = {
-  addMessageActionCreator: (newMessage: string) => {
+  addMessage: (newMessage: string) => {
     return { type: ADD_MESSAGE, newMessage } as const;
   },
 };
@@ -62,11 +62,11 @@ export default dialogReducer;
 export type InitialStateType = typeof initialState;
 type ActionsTypes = InferActionsTypes<typeof actions>;
 
-// type addMessageActionCreatorType = {
+// type addMessageType = {
 //   type: typeof ADD_MESSAGE
 //   newMessage: string
 // }
 
-// export const addMessageActionCreator = (newMessage: string): addMessageActionCreatorType => {
+// export const addMessage = (newMessage: string): addMessageType => {
 //   return { type: ADD_MESSAGE, newMessage };
 // };

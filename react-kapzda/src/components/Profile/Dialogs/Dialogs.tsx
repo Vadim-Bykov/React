@@ -3,14 +3,26 @@ import s from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import DialogsForm from './DialogsForm';
+import { dialogType, messageType } from '../../../redux/dialog-reducer';
 
-const Dialogs = (props) => {
+type OwnProps = {
+   dialogs: Array<dialogType>
+   messages: Array<messageType>
+   addMessage: (newMessage: string) => void
+};
+
+export type DialogFormValuesType = {
+   dialogForm: string;
+ };
+ 
+
+const Dialogs: React.FC<OwnProps> = (props) => {
    const dialogsElements = props.dialogs.map(dialog => <DialogItem key={dialog.id} name={dialog.name} id={dialog.id} />);
 
    const messagesElements = props.messages.map(message => <Message key={message.id} message={message.message}/>);
 
-   const addNewMessage = (e) => {
-      props.addMessage(e.dialogForm)
+   const addNewMessage = (values: DialogFormValuesType) => {
+      props.addMessage(values.dialogForm)
    }
 
    return (

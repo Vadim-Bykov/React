@@ -1,3 +1,5 @@
+import { FormValuesType } from "../components/Profile/ProfileInfo/ProfileInfo";
+
 export type postType = {
    id: number
    message: string
@@ -5,7 +7,7 @@ export type postType = {
  }
  
 export type contactsType = {
-   github: string
+   [github: string]: string
    vk: string
    facebook: string
    instagram: string
@@ -27,6 +29,8 @@ export type profileType = {
    fullName: string
    contacts: contactsType
    photos: photosType
+   aboutMe: string
+   initialValues?: Partial<FormValuesType>
 };
 
 export type userType = {

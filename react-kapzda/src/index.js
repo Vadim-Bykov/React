@@ -1,12 +1,12 @@
-import React from 'react';
+// import React from 'react';
+// import { BrowserRouter } from 'react-router-dom';
+// import reportWebVitals from './reportWebVitals';
+// import store from './redux/redux-store';
+// import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-import store from './redux/redux-store';
-import { Provider } from 'react-redux';
 
 
 // export const renderEntireTree = (state) => {

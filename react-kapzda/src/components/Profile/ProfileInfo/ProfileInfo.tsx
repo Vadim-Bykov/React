@@ -1,21 +1,34 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import { profileType } from '../../../Types/Types';
 import Preloader from '../../common/preloader/Preloader';
 import ReduxProfileDataForm from './ProfileDataForm';
 import s from './ProfileInfo.module.css';
 
 const defaultPhoto = 'https://www.meme-arsenal.com/memes/0b37d82bcfd11cb3196fa5329f3bff0f.jpg';
 
-const ProfileInfo = (props) => {
+
+type PropsType = {
+   profile: profileType | null
+   isOwner: boolean
+   savePhoto: (photo: File) => void;
+   saveProfile: (formData: profileType)=> Promise<boolean>
+};
+ 
+export type FormValuesType = {
+   formData: profileType;
+ };
+
+const ProfileInfo: React.FC<PropsType> = (props) => {
    const [editMode, setEditMode] = useState(false);
 
    if (!props.profile) return <Preloader />;
 
-   const choosePhoto = (e) => {
-      const photo = e.target.files[0]; // массив
-      if (e.target.files.length) props.savePhoto(photo);
+   const choosePhoto = (e: ChangeEvent<HTMLInputElement>) => {
+      // const photo = e.target.files[0]; // массив
+      if (e.target.files?.length) props.savePhoto(e.target.files[0]);
    }
 
-   const onSubmit = (formData) => {
+   const onSubmit = (formData: profileType) => {
  
       props.saveProfile(formData).then(() => {
          setEditMode(false)
@@ -34,14 +47,25 @@ const ProfileInfo = (props) => {
                {props.isOwner && <input type="file" onChange={choosePhoto} />}
             </div>
             {editMode
-               ? <ReduxProfileDataForm profile={props.profile} isOwner={props.isOwner} onSubmit={onSubmit} saveProfile={props.saveProfile} initialValues={props.profile} />
+               ? <ReduxProfileDataForm
+                  profile={props.profile}
+                  // isOwner={props.isOwner}
+                  onSubmit={onSubmit}
+                  // saveProfile={props.saveProfile}
+                  initialValues={props.profile} />
                : <ProfileData isOwner={props.isOwner} goToEditMode={()=> setEditMode(true)} profile={props.profile} />}
          </div>
       </div>
    );
 }
 
-const ProfileData = ({ profile, isOwner, goToEditMode }) => {
+type ProfileDataPropsType = {
+   profile: profileType,
+   isOwner: boolean,
+   goToEditMode: ()=> void
+}
+
+const ProfileData: React.FC<ProfileDataPropsType> = ({ profile, isOwner, goToEditMode }) => {
    return (
       <div className={s.description}>
          {isOwner && <div><button onClick={goToEditMode}>edit</button></div>}
@@ -56,7 +80,12 @@ const ProfileData = ({ profile, isOwner, goToEditMode }) => {
    );
 }
 
-const Contact = ({ title, value }) => {
+type ContactPropsType = {
+   title: string
+   value: string
+}
+
+const Contact: React.FC<ContactPropsType> = ({ title, value }) => {
    return <div className={s.contact}><b>{title}:</b>{value}</div>
 };
 

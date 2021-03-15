@@ -1,5 +1,5 @@
 import './App.css';
-import React, { ComponentType } from 'react';
+import React from 'react';
 import {
   BrowserRouter,
   Redirect,
@@ -20,7 +20,7 @@ import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer';
 import Preloader from './components/common/preloader/Preloader';
-import store, { AppStateType } from './redux/redux-store';
+import store from './redux/redux-store';
 import WithSuspense from './components/HOC/withSuspense';
 // import ProfileContainer from './components/Profile/ProfileContainer';
 // import DialogsContainer from './components/Profile/Dialogs/DialogsContainer';
@@ -36,6 +36,8 @@ const DialogsContainer = React.lazy(() =>
 // type DispatchPropsType = {
 //   initializeApp: () => void
 // }
+
+// const withSuspensedDialogs = WithSuspense(DialogsContainer);
 
 class MainComponent extends React.Component {
   catchAllPromiseErrors(e) {
@@ -68,7 +70,11 @@ class MainComponent extends React.Component {
               path='/profile/:userId?'
               render={WithSuspense(ProfileContainer)}
             />
-            <Route path='/dialogs' render={WithSuspense(DialogsContainer)} />
+            <Route
+              path='/dialogs'
+              render={WithSuspense(DialogsContainer)}
+              // render={() => <withSuspensedDialogs />}
+            />
             {/* <Route exact path="/dialogs" component={Dialogs} /> */}
             {/* exact покажет только точный путь без подкаталогов /dialogs/1*/}
             <Route path='/news' component={News} />

@@ -1,7 +1,10 @@
 // import React from 'react';
 import { NavLink } from 'react-router-dom';
 import s from './Header.module.css';
-const Header = (props) => {
+import { PropsType } from './HeaderComponent';
+
+
+const Header: React.FC<PropsType> = (props) => {
    return <header className={s.header}>
       <div>
          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png" alt="react" />

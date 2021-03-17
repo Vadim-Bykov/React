@@ -3,6 +3,26 @@ import { actions } from '../../../redux/profile-reducer';
 import { AppStateType } from '../../../redux/redux-store';
 import MyPosts from './MyPosts';
 
+const mapStateToProps = (state: AppStateType)=> {
+   return {
+      posts: state.profilePage.posts,
+      // postText: state.profilePage.postText
+  } 
+} 
+
+type MapStateToPropsType = ReturnType<typeof mapStateToProps>
+type MapDispatchToPropsType = {
+   addPost: (myPostForm: string) => void;
+}
+
+// {} ownProps если они есть 
+const MyPostsContainer = connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, {
+   addPost: actions.addPostActionCreator,
+   // changePostText: updatePostActionCreator,
+})(MyPosts);
+
+export default MyPostsContainer;
+
 // const MyPostsContainer1 = (props) => {
 
 //    const addPost = () => {
@@ -38,16 +58,3 @@ import MyPosts from './MyPosts';
 
 // const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
 
-const mapStateToProps = (state: AppStateType)=> {
-   return {
-      posts: state.profilePage.posts,
-      // postText: state.profilePage.postText
-  } 
-}
-
-const MyPostsContainer = connect(mapStateToProps, {
-   addPost: actions.addPostActionCreator,
-   // changePostText: updatePostActionCreator,
-})(MyPosts);
-
-export default MyPostsContainer;

@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
 // import reportWebVitals from './reportWebVitals';
 // import store from './redux/redux-store';
@@ -6,8 +6,6 @@
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-
-
 
 // export const renderEntireTree = (state) => {
 //   ReactDOM.render(

@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { ComponentType } from 'react';
 import {
   BrowserRouter,
   Redirect,
@@ -20,7 +20,7 @@ import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer';
 import Preloader from './components/common/preloader/Preloader';
-import store from './redux/redux-store';
+import store, { AppStateType } from './redux/redux-store';
 import WithSuspense from './components/HOC/withSuspense';
 // import ProfileContainer from './components/Profile/ProfileContainer';
 // import DialogsContainer from './components/Profile/Dialogs/DialogsContainer';
@@ -31,16 +31,21 @@ const DialogsContainer = React.lazy(() =>
   import('./components/Profile/Dialogs/DialogsContainer')
 );
 
-// type MapPropsType = ReturnType<typeof mapStateToProps>;
+// type MapStateToPropsType = ReturnType<typeof mapStateToProps>;
 
-// type DispatchPropsType = {
-//   initializeApp: () => void
-// }
+type MapStateToPropsType = {
+  initialized: boolean
+}
 
+type DispatchPropsType = {
+  initializeApp: () => void
+}
+
+// const withSuspensedProfile = WithSuspense(ProfileContainer);
 // const withSuspensedDialogs = WithSuspense(DialogsContainer);
 
-class MainComponent extends React.Component {
-  catchAllPromiseErrors(e) {
+class MainComponent extends React.Component<MapStateToPropsType & DispatchPropsType> {
+  catchAllPromiseErrors(e: PromiseRejectionEvent) {
     // console.log(e.promise, e.reason)
     alert('Some error occurred');
   }
@@ -68,11 +73,12 @@ class MainComponent extends React.Component {
             <Route exact path='/' render={() => <Redirect to='/profile' />} />
             <Route
               path='/profile/:userId?'
-              render={WithSuspense(ProfileContainer)}
+              component={WithSuspense(ProfileContainer)}
+              // render={() => <withSuspensedProfile />}
             />
             <Route
               path='/dialogs'
-              render={WithSuspense(DialogsContainer)}
+              component={WithSuspense(DialogsContainer)}
               // render={() => <withSuspensedDialogs />}
             />
             {/* <Route exact path="/dialogs" component={Dialogs} /> */}
@@ -96,18 +102,18 @@ class MainComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
   return {
     initialized: state.app.initialized,
   };
 };
 
-const MainComponentContainer = compose(
+const MainComponentContainer = compose<ComponentType>(
   withRouter,
   connect(mapStateToProps, { initializeApp })
 )(MainComponent);
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>

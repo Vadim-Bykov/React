@@ -1,4 +1,5 @@
 import React from 'react';
+import { FilterType } from '../../redux/users-reducer';
 import { userType } from '../../Types/Types';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
@@ -13,6 +14,7 @@ type PropsTypes = {
   followingInProgress: Array<number>;
   unfollow: (userId: number) => void;
   follow: (userId: number) => void;
+  onFilterChanged: (filter: FilterType)=> void
   // user?: any
 };
 
@@ -20,7 +22,7 @@ const Users: React.FC<PropsTypes> = React.memo(
   ({ totalUsersCount, pageSize, changePage, currentPage, users, ...props }) => {
     return (
       <div>
-        <UserSearchForm />
+        <UserSearchForm onFilterChanged={props.onFilterChanged} />
 
         <Paginator
           totalUsersCount={totalUsersCount}

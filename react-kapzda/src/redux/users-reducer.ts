@@ -146,11 +146,12 @@ export const requestUsers = (
   // return async (dispatch: DispatchType, getState: GetStateType) => {
   return async (dispatch, getState) => {
     dispatch(actions.toggleIsFetching(true));
-    const res = await usersAPI.getUsersData(currentPage, pageSize);
+    const res = await usersAPI.getUsersData(currentPage, pageSize, term);
     dispatch(actions.toggleIsFetching(false));
     dispatch(actions.setTotalUsersCount(res.totalCount));
     dispatch(actions.setCurrentPage(currentPage));
     dispatch(actions.setUsers(res.items));
+    dispatch(actions.setFilter(term));
   };
 };
 
@@ -195,6 +196,7 @@ export const unfollow = (userId: number): ThunkType => {
 export default usersReducer;
 
 type initialStateType = typeof initialState;
+export type FilterType = typeof initialState.filter;
 type ActionsTypes = InferActionsTypes<typeof actions>;
 type ThunkType = BaseThunkType<ActionsTypes>;
 

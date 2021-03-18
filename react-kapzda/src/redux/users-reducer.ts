@@ -12,6 +12,7 @@ const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_FOLLOWING_PROGRESS = 'TOGGLE_FOLLOWING_PROGRESS';
+const SET_FILTER = 'SET_FILTER';
 
 const initialState = {
   users: [] as Array<userType>,
@@ -20,6 +21,7 @@ const initialState = {
   totalUsersCount: 0,
   isFetching: false,
   followingInProgress: [] as Array<number>, // Array of userId
+  filter: { term: '' },
   // fake: 10,
 };
 
@@ -79,11 +81,16 @@ const usersReducer = (
           : state.followingInProgress.filter((id) => id !== action.userId),
       };
 
+    case SET_FILTER:
+      return {
+        ...state,
+        filter: action.payload,
+      };
+
     default:
       return state;
   }
 };
-
 
 export const actions = {
   followSuccess: (userId: number) => {
@@ -122,6 +129,9 @@ export const actions = {
       isFetching,
       userId,
     } as const),
+
+  setFilter: (term: string) =>
+    ({ type: SET_FILTER, payload: { term } } as const),
 };
 
 // type GetStateType = () => AppStateType;
@@ -130,7 +140,8 @@ type DispatchType = Dispatch<ActionsTypes>;
 
 export const requestUsers = (
   currentPage: number,
-  pageSize: number
+  pageSize: number,
+  term: string
 ): ThunkType => {
   // return async (dispatch: DispatchType, getState: GetStateType) => {
   return async (dispatch, getState) => {

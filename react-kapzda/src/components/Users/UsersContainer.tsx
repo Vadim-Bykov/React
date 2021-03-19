@@ -23,7 +23,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
    follow: (userId: number) => void
    unfollow: (userId: number) => void
-   requestUsers: (currentPage: number, pageSize: number, term: string) => void
+   requestUsers: (currentPage: number, pageSize: number, filter: FilterType) => void
 }
 
 type OwnPropsType = {
@@ -49,18 +49,18 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
 class UsersComponent extends React.PureComponent<PropsType> {
    
    componentDidMount = () => {
-      const { currentPage, pageSize, ...props } = this.props;
-      props.requestUsers(currentPage, pageSize, '');
+      const { currentPage, pageSize, filter, ...props } = this.props;
+      props.requestUsers(currentPage, pageSize, filter);
    };
 
    changePage = (pageNumber: number) => {
       const { pageSize, filter } = this.props;
-      this.props.requestUsers(pageNumber, pageSize, filter.term);
+      this.props.requestUsers(pageNumber, pageSize, filter);
    }
 
    onFilterChanged = (filter: FilterType) => {
       const { pageSize } = this.props;
-      this.props.requestUsers(1, pageSize, filter.term);
+      this.props.requestUsers(1, pageSize, filter);
    }
 
    render = () => {

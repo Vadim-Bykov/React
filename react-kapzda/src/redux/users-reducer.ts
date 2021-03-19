@@ -21,7 +21,7 @@ const initialState = {
   totalUsersCount: 0,
   isFetching: false,
   followingInProgress: [] as Array<number>, // Array of userId
-  filter: { term: '' },
+  filter: { term: '', friend: null as null | boolean},
   // fake: 10,
 };
 
@@ -130,8 +130,8 @@ export const actions = {
       userId,
     } as const),
 
-  setFilter: (term: string) =>
-    ({ type: SET_FILTER, payload: { term } } as const),
+  setFilter: (filter: FilterType) =>
+    ({ type: SET_FILTER, payload: filter } as const),
 };
 
 // type GetStateType = () => AppStateType;
@@ -141,17 +141,17 @@ type DispatchType = Dispatch<ActionsTypes>;
 export const requestUsers = (
   currentPage: number,
   pageSize: number,
-  term: string
+  filter: FilterType
 ): ThunkType => {
   // return async (dispatch: DispatchType, getState: GetStateType) => {
   return async (dispatch, getState) => {
     dispatch(actions.toggleIsFetching(true));
-    const res = await usersAPI.getUsersData(currentPage, pageSize, term);
+    const res = await usersAPI.getUsersData(currentPage, pageSize, filter.term, filter.friend);
     dispatch(actions.toggleIsFetching(false));
     dispatch(actions.setTotalUsersCount(res.totalCount));
     dispatch(actions.setCurrentPage(currentPage));
     dispatch(actions.setUsers(res.items));
-    dispatch(actions.setFilter(term));
+    dispatch(actions.setFilter(filter));
   };
 };
 

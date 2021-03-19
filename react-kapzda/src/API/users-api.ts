@@ -10,9 +10,9 @@ export const usersAPI = {
     return instance.post<ResponseType>(`follow/${id}`).then((res) => res.data);
   },
 
-  getUsersData(currentPage: number, pageSize: number, term = '') {
+  getUsersData(currentPage: number, pageSize: number, term = '', friend: null | boolean = null) {
     return instance
-      .get<GetUsersItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}`)
+      .get<GetUsersItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}${friend === null ? '' : `&friend=${friend}`}`)
       .then((res) => res.data);
   },
 

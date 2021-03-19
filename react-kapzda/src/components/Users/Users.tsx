@@ -1,49 +1,84 @@
-import React from 'react';
-import { FilterType } from '../../redux/users-reducer';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { FilterType, requestUsers, follow } from '../../redux/users-reducer';
+import {
+  getCurrentPage,
+  getPageSize,
+  getTotalUsersCount,
+  getUsers,
+  getUsersFilter,
+  getFollowingInProgress,
+} from '../../redux/users-selectors';
 import { userType } from '../../Types/Types';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
 import { UserSearchForm } from './UsersSearchForm';
 
 type PropsTypes = {
-  totalUsersCount: number;
-  pageSize: number;
-  changePage: (pageNumber: number) => void;
-  currentPage: number;
-  users: Array<userType>;
-  followingInProgress: Array<number>;
-  unfollow: (userId: number) => void;
-  follow: (userId: number) => void;
-  onFilterChanged: (filter: FilterType)=> void
+  // totalUsersCount: number;
+  // pageSize: number;
+  // currentPage: number;
+  // changePage: (pageNumber: number) => void;
+  // users: Array<userType>;
+  // followingInProgress: Array<number>;
+  // unfollow: (userId: number) => void;
+  // follow: (userId: number) => void;
+  // onFilterChanged: (filter: FilterType)=> void
   // user?: any
 };
 
-const Users: React.FC<PropsTypes> = React.memo(
-  ({ totalUsersCount, pageSize, changePage, currentPage, users, ...props }) => {
-    return (
-      <div>
-        <UserSearchForm onFilterChanged={props.onFilterChanged} />
+const Users: React.FC = React.memo(() => {
+  const totalUsersCount = useSelector(getTotalUsersCount);
+  const pageSize = useSelector(getPageSize);
+  const currentPage = useSelector(getCurrentPage);
+  const filter = useSelector(getUsersFilter);
+  const users = useSelector(getUsers);
+  const followingInProgress = useSelector(getFollowingInProgress);
 
-        <Paginator
-          totalUsersCount={totalUsersCount}
-          pageSize={pageSize}
-          changePage={changePage}
-          currentPage={currentPage}
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(requestUsers(currentPage, pageSize, filter));
+  }, []);
+
+  const changePage = (pageNumber: number) => {
+    dispatch(requestUsers(pageNumber, pageSize, filter));
+  };
+
+  const onFilterChanged = (filter: FilterType) => {
+    dispatch(requestUsers(1, pageSize, filter));
+  };
+
+  const follow = (userId: number) => {
+    dispatch(follow(userId));
+  };
+  const unfollow = (userId: number) => {
+    dispatch(unfollow(userId));
+  };
+
+  return (
+    <div>
+      <UserSearchForm onFilterChanged={onFilterChanged} />
+
+      <Paginator
+        totalUsersCount={totalUsersCount}
+        pageSize={pageSize}
+        changePage={changePage}
+        currentPage={currentPage}
+      />
+
+      {users.map((user) => (
+        <User
+          user={user}
+          followingInProgress={followingInProgress}
+          unfollow={unfollow}
+          follow={follow}
+          key={user.id}
         />
-
-        {users.map((user) => (
-          <User
-            user={user}
-            followingInProgress={props.followingInProgress}
-            unfollow={props.unfollow}
-            follow={props.follow}
-            key={user.id}
-          />
-        ))}
-      </div>
-    );
-  }
-);
+      ))}
+    </div>
+  );
+});
 
 // const usersSearchFormValidate = (values: any) => {
 //    const errors = {};

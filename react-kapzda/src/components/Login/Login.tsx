@@ -1,12 +1,12 @@
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Form, InjectedFormProps, reduxForm } from 'redux-form';
-// import { authAPI } from "../../API/api";
 import { login } from '../../redux/auth-reducer';
 import { maxLengthCreator, required } from '../../utils/validators';
 import { createField, Input } from '../common/formControls/formControls';
 import style from '../common/formControls/formControls.module.css';
 import { AppStateType } from '../../redux/redux-store';
+
 
 type LoginFormOwnProps = {
   captchaUrl: string | null;
@@ -75,20 +75,6 @@ const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({
   form: 'login',
 })(LoginForm);
 
-type MapStatPropsType = {
-  isAuth: boolean;
-  captchaUrl: string | null;
-};
-
-type MapDispatchType = {
-  login: (
-    email: string,
-    password: string,
-    rememberMe: boolean,
-    captcha?: string
-  ) => void;
-  loginInProgress: boolean;
-};
 
 type LoginFormValuesType = {
   email: string;
@@ -99,16 +85,16 @@ type LoginFormValuesType = {
 
 type FormKeysType = Extract<keyof LoginFormValuesType, string>;
 
-const Login: React.FC<MapStatPropsType & MapDispatchType> = ({
-  login,
-  isAuth,
-  loginInProgress,
-  captchaUrl,
-}) => {
+export const Login: React.FC = () => {
+  const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl);
+  const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
+  const loginInProgress = useSelector((state: AppStateType) => state.auth.loginInProgress);
+
+  const dispatch = useDispatch();
+
   const onSubmit = (formData: LoginFormValuesType) => {
-    // console.log(formData)
     const { email, password, rememberMe, captcha } = formData;
-    login(email, password, rememberMe, captcha);
+    dispatch(login(email, password, rememberMe, captcha));
   };
 
   if (isAuth) {
@@ -127,12 +113,28 @@ const Login: React.FC<MapStatPropsType & MapDispatchType> = ({
   );
 };
 
-const mapStateToProps = (state: AppStateType) => {
-  return {
-    isAuth: state.auth.isAuth,
-    loginInProgress: state.auth.loginInProgress,
-    captchaUrl: state.auth.captchaUrl,
-  };
-};
 
-export default connect(mapStateToProps, { login })(Login);
+// type MapStatPropsType = {
+//   isAuth: boolean;
+//   captchaUrl: string | null;
+// };
+
+// type MapDispatchType = {
+//   login: (
+//     email: string,
+//     password: string,
+//     rememberMe: boolean,
+//     captcha?: string
+//   ) => void;
+//   loginInProgress: boolean;
+// };
+
+// const mapStateToProps = (state: AppStateType) => {
+//   return {
+//     isAuth: state.auth.isAuth,
+//     loginInProgress: state.auth.loginInProgress,
+//     captchaUrl: state.auth.captchaUrl,
+//   };
+// };
+
+// export default connect(mapStateToProps, { login })(Login);

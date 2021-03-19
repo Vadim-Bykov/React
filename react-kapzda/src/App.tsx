@@ -12,9 +12,9 @@ import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Profile/Settings/Settings';
-import UsersContainer from './components/Users/UsersContainer';
+import { UsersPage } from './components/Users/UsersContainer';
 import HeaderComponent from './components/Header/HeaderComponent';
-import Login from './components/Login/Login';
+import {Login} from './components/Login/Login';
 import { connect, Provider } from 'react-redux';
 // import { getAuthUserData } from './redux/auth-reducer';
 import { compose } from 'redux';
@@ -24,27 +24,29 @@ import store, { AppStateType } from './redux/redux-store';
 import WithSuspense from './components/HOC/withSuspense';
 // import ProfileContainer from './components/Profile/ProfileContainer';
 // import DialogsContainer from './components/Profile/Dialogs/DialogsContainer';
-const ProfileContainer = React.lazy(() =>
-  import('./components/Profile/ProfileContainer')
+const ProfileContainer = React.lazy(
+  () => import('./components/Profile/ProfileContainer')
 );
-const DialogsContainer = React.lazy(() =>
-  import('./components/Profile/Dialogs/DialogsContainer')
+const DialogsContainer = React.lazy(
+  () => import('./components/Profile/Dialogs/DialogsContainer')
 );
 
 // type MapStateToPropsType = ReturnType<typeof mapStateToProps>;
 
 type MapStateToPropsType = {
-  initialized: boolean
-}
+  initialized: boolean;
+};
 
 type DispatchPropsType = {
-  initializeApp: () => void
-}
+  initializeApp: () => void;
+};
 
 // const withSuspensedProfile = WithSuspense(ProfileContainer);
 // const withSuspensedDialogs = WithSuspense(DialogsContainer);
 
-class MainComponent extends React.Component<MapStateToPropsType & DispatchPropsType> {
+class MainComponent extends React.Component<
+  MapStateToPropsType & DispatchPropsType
+> {
   catchAllPromiseErrors(e: PromiseRejectionEvent) {
     // console.log(e.promise, e.reason)
     alert('Some error occurred');
@@ -88,7 +90,7 @@ class MainComponent extends React.Component<MapStateToPropsType & DispatchPropsT
             <Route path='/settings' component={Settings} />
             <Route
               path='/users'
-              render={() => <UsersContainer pageTitle='Samurai' />}
+              render={() => <UsersPage pageTitle='Samurai' />}
             />
             {/* Точные адреса вставляются выше /login/facebook чем /login со <Switch></Switch> без exact*/}
             <Route path='/login/facebook' render={() => <div>facebook</div>} />

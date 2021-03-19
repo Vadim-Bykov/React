@@ -64,33 +64,33 @@ export default function CustomizedMenus() {
       >
         Open Menu
       </Button> */}
-                <IconButton aria-label='settings' onClick={handleClick}>
-         <MoreVertIcon />
-          </IconButton>
+      <IconButton aria-label='settings' onClick={handleClick}>
+        <MoreVertIcon />
+      </IconButton>
       <StyledMenu
-        id="customized-menu"
+        id='customized-menu'
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem>
+        <StyledMenuItem onClick={handleClose}>
           <ListItemIcon>
-            <SendIcon fontSize="small" />
+            <SendIcon fontSize='small' />
           </ListItemIcon>
-          <ListItemText primary="Sent mail" />
+          <ListItemText primary='Sent mail' />
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={handleClose}>
           <ListItemIcon>
-            <DraftsIcon fontSize="small" />
+            <DraftsIcon fontSize='small' />
           </ListItemIcon>
-          <ListItemText primary="Drafts" />
+          <ListItemText primary='Drafts' />
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={handleClose}>
           <ListItemIcon>
-            <InboxIcon fontSize="small" />
+            <InboxIcon fontSize='small' />
           </ListItemIcon>
-          <ListItemText primary="Inbox" />
+          <ListItemText primary='Inbox' />
         </StyledMenuItem>
       </StyledMenu>
     </div>

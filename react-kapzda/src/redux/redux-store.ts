@@ -6,6 +6,7 @@ import authReducer from './auth-reducer';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 import appReducer from './app-reducer';
+import { wordsReducer } from '../components/Music/store/reducer';
 
 const rootReducers = combineReducers({
   profilePage: profileReducer,
@@ -14,6 +15,7 @@ const rootReducers = combineReducers({
   auth: authReducer,
   form: formReducer,
   app: appReducer,
+  words: wordsReducer
 });
 
 type RootReducersType = typeof rootReducers; // AAP_STATE

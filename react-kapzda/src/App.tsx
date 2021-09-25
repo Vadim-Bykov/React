@@ -14,7 +14,7 @@ import Music from './components/Music/Music';
 import Settings from './components/Profile/Settings/Settings';
 import { UsersPage } from './components/Users/UsersContainer';
 import HeaderComponent from './components/Header/HeaderComponent';
-import {Login} from './components/Login/Login';
+import { Login } from './components/Login/Login';
 import { connect, Provider } from 'react-redux';
 // import { getAuthUserData } from './redux/auth-reducer';
 import { compose } from 'redux';
@@ -22,6 +22,7 @@ import { initializeApp } from './redux/app-reducer';
 import Preloader from './components/common/preloader/Preloader';
 import store, { AppStateType } from './redux/redux-store';
 import WithSuspense from './components/HOC/withSuspense';
+import ChatPage from './components/Chat/ChatPage';
 // import ProfileContainer from './components/Profile/ProfileContainer';
 // import DialogsContainer from './components/Profile/Dialogs/DialogsContainer';
 const ProfileContainer = React.lazy(
@@ -88,6 +89,7 @@ class MainComponent extends React.Component<
             <Route path='/news' component={News} />
             <Route path='/music' component={Music} />
             <Route path='/settings' component={Settings} />
+            <Route path='/chat' component={ChatPage} />
             <Route
               path='/users'
               render={() => <UsersPage pageTitle='Samurai' />}

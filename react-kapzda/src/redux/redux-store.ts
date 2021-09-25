@@ -1,4 +1,10 @@
-import { applyMiddleware, combineReducers, createStore, compose, Action } from 'redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore,
+  compose,
+  Action,
+} from 'redux';
 import profileReducer from './profile-reducer';
 import dialogReducer from './dialog-reducer';
 import usersReducer from './users-reducer';
@@ -7,6 +13,7 @@ import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 import appReducer from './app-reducer';
 import { wordsReducer } from '../components/Music/store/reducer';
+import chatReducer from './chat-reducer';
 
 const rootReducers = combineReducers({
   profilePage: profileReducer,
@@ -15,16 +22,23 @@ const rootReducers = combineReducers({
   auth: authReducer,
   form: formReducer,
   app: appReducer,
-  words: wordsReducer
+  words: wordsReducer,
+  chat: chatReducer,
 });
 
 type RootReducersType = typeof rootReducers; // AAP_STATE
-export type AppStateType = ReturnType<RootReducersType>
+export type AppStateType = ReturnType<RootReducersType>;
 
+export type InferActionsTypes<T> = T extends {
+  [key: string]: (...args: any) => infer U;
+}
+  ? U
+  : never;
 
-export type InferActionsTypes<T> = T extends { [ key: string ]: (...args: any) => infer U } ? U : never;
-
-export type BaseThunkType<A extends Action = Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
+export type BaseThunkType<
+  A extends Action = Action,
+  R = Promise<void>
+> = ThunkAction<R, AppStateType, unknown, A>;
 // Action = Action любой ActionCreator может диспатчить
 
 // @ts-ignore
